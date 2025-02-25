@@ -1,22 +1,54 @@
 body {
   padding: 20px;
-  background: yellow; }
+  background: rgb(230, 230, 153); }
 #nome {
-  background: rgba(247, 1, 1, 0.911);
+  background: rgba(206, 78, 78, 0.911);
   border: solid;
-  text-align: center 
+  text-align: center;
 }
 #local {
+  background-color: cadetblue;
   padding-top: 20px;
+  padding-bottom: 5px;
+   border: solid;
 }
-#bio {
-  background-color: rgba(128, 255, 0, 0.568);
-    #risada {
-    width: 15px;
-    }
- 
+#Introdu {
+   border: solid;
+  background-color: rgba(182, 196, 63, 0.568);
+ text-align: center ;
+}
+
+#interesses {
+   border: solid;
+background-color: rgba(182, 196, 63, 0.568);
+ text-align: center ;
+}
+#primeirospassos {
+   border: solid;
+background-color: rgba(182, 196, 63, 0.568);
+ text-align: center ;
+}
+#vidapro {
+   border: solid;
+background-color: rgba(182, 196, 63, 0.568);
+ text-align: center ;
+}
+
+#mudançaderumo {
+   border: solid;
+ text-align: center ;
+background-color: rgba(182, 196, 63, 0.568);
+}
+
+#conclu {
+   border: solid;
+ text-align: center ;
+  background-color: rgba(182, 196, 63, 0.568);
+}
+#fotominha {
+   border: double 2px ;
+}
 
 
-}
 
     
