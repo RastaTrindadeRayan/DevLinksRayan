@@ -30,8 +30,9 @@ border:7px outset var(--stroke-color);
 padding: 00px 00px 00px 00px;
 }
 body {
+  
   background: var(--bg-url)no-repeat top center/cover;
-  height: 150vh;
+  height: auto;
 }
 body * {
   font-family: "inter", sans-serif;
