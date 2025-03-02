@@ -43,7 +43,7 @@ links.setAttribute("href", "http://127.0.0.1:5500/assets/avatarblack.png")
    player.style.bottom = `${y}px`
    setTimeout((e) => {
      player.style.bottom = `10px`
-   }, 600)
+   }, 800)
  })
 
  function run() {
