@@ -62,7 +62,7 @@ body * {
   border:var(--stroke-color);
   border-radius: 100px;
     
-transition: all 1s;
+transition: all 500ms;
 }
 #profile p {
   font-weight: 500;
@@ -135,20 +135,20 @@ backdrop-filter: blur(4px);
 -webkit-backdrop-filter: blur(4px);
 text-decoration: none;
 font-weight: 500;
-transition: background 0.5s;
+transition: background 500ms;
   
 }
 ul li a:hover {
   background: var(--surface-color-hover);
   border: 11.5px double var(--stroke-color);
-  transition:all 1s;
+  transition:all 500ms;
 }
 #profile img:hover {
 
   width: 130px;
   border:7px solid var(--stroke-color);
   border-radius: 100.5px;
-  transition: all 1s;
+  transition: all 500ms;
     
 
 }
@@ -164,7 +164,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 padding: 16px;
-transition: background 0.2s;
+transition: background 0.5s;
 border-radius: 50%;
 }
 footer {
