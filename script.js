@@ -26,7 +26,7 @@ if(html.classList.contains("Light")) {
   
 links.setAttribute("href", "http://127.0.0.1:5500/assets/avatarblack.png")
 } 
- }
+ }{
  const tv = document.querySelector(".tv")
  const player = document.querySelector(".player")
  const enemy = document.querySelector(".enemy")
@@ -84,7 +84,7 @@ links.setAttribute("href", "http://127.0.0.1:5500/assets/avatarblack.png")
    requestAnimationFrame(run)
  }
 
- run() // valeu
+ run()} // valeu
 
 
 
