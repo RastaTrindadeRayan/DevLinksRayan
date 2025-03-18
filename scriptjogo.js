@@ -19,9 +19,9 @@ let bullets = [];
 let particles = [];
 let player = {
     x: canvas.width / 2 - 15, // Ajuste para deixar o jogador centralizado
-    y: canvas.height - 50,
+    y: canvas.height - 80, // Posicionando o jogador um pouco mais acima
     width: 30, // Jogador mais estreito
-    height: 50,
+    height: 80, // Aumentando a altura do jogador
     color: '#00FF00',
     dx: 0
 };
@@ -249,6 +249,7 @@ document.getElementById('restartButton').addEventListener('click', function () {
     particles = [];
     gameOver = false;
     player.x = canvas.width / 2 - 15; // Garantir que o jogador reinicie centralizado
+    player.y = canvas.height - 80; // Atualizando a posição do jogador após o reinício
     document.getElementById('score').textContent = score;
     document.querySelector('.game-over').style.display = 'none';
     updateGame();
