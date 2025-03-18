@@ -104,20 +104,20 @@ function updateGame() {
 }
 
 // Eventos de controle para dispositivos móveis (botões)
-document.getElementById('leftBtn').addEventListener('touchstart', function () {
+document.getElementById('leftBtn').addEventListener('click', function () {
     player.dx = -playerSpeed;
 });
 
-document.getElementById('rightBtn').addEventListener('touchstart', function () {
+document.getElementById('rightBtn').addEventListener('click', function () {
     player.dx = playerSpeed;
 });
 
-// Parar movimento quando o toque é liberado
-document.getElementById('leftBtn').addEventListener('touchend', function () {
+// Parar movimento quando o clique é liberado
+document.getElementById('leftBtn').addEventListener('mouseup', function () {
     player.dx = 0;
 });
 
-document.getElementById('rightBtn').addEventListener('touchend', function () {
+document.getElementById('rightBtn').addEventListener('mouseup', function () {
     player.dx = 0;
 });
 
