@@ -1,16 +1,5 @@
-// Ajuste do tamanho do canvas para ocupar 100% da largura e altura da tela
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-
-// Função para atualizar o tamanho do canvas com base no tamanho da janela
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-resizeCanvas();  // Chama a função para ajustar o canvas no início
-
-window.addEventListener('resize', resizeCanvas);  // Ajusta o canvas sempre que a janela for redimensionada
 
 let score = 0;
 let gameOver = false;
@@ -18,7 +7,6 @@ let playerSpeed = 5;
 let speed = 3;
 let obstacles = [];
 let bullets = [];
-let particles = [];
 let player = {
     x: canvas.width / 2 - 25,
     y: canvas.height - 50,
@@ -28,10 +16,20 @@ let player = {
     dx: 0
 };
 
+const explosionParticles = [];
+
 // Função para desenhar o jogador
 function drawPlayer() {
     ctx.fillStyle = player.color;
     ctx.fillRect(player.x, player.y, player.width, player.height);
+}
+
+// Função para gerar obstáculos
+function generateObstacles() {
+    const obstacleWidth = 50;
+    const obstacleHeight = 50;
+    const x = Math.random() * (canvas.width - obstacleWidth);
+    obstacles.push({ x: x, y: -obstacleHeight, width: obstacleWidth, height: obstacleHeight });
 }
 
 // Função para desenhar os obstáculos
@@ -50,31 +48,14 @@ function drawBullets() {
     });
 }
 
-// Função para desenhar as partículas de explosão
-function drawParticles() {
-    particles.forEach((particle, index) => {
-        ctx.fillStyle = particle.color;
-        ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
-
-        // Atualiza as partículas
-        particle.x += particle.dx;
-        particle.y += particle.dy;
-        particle.size *= 0.95; // Diminuindo o tamanho da partícula
-
-        if (particle.size < 0.1) {
-            particles.splice(index, 1); // Remove partículas pequenas
-        }
-    });
-}
-
-// Função para atualizar a posição dos obstáculos
+// Função para atualizar a posição dos obstáculos e verificar colisões
 function updateObstacles() {
     if (gameOver) return;
 
     obstacles.forEach((obstacle, index) => {
         obstacle.y += speed;
 
-        // Verificar colisão
+        // Verificar colisão com o jogador
         if (
             obstacle.x < player.x + player.width &&
             obstacle.x + obstacle.width > player.x &&
@@ -89,21 +70,57 @@ function updateObstacles() {
             updateHighScore(score);
         }
 
+        // Verificar colisão com as balas
+        bullets.forEach((bullet, bIndex) => {
+            if (
+                bullet.x < obstacle.x + obstacle.width &&
+                bullet.x + bullet.width > obstacle.x &&
+                bullet.y < obstacle.y + obstacle.height &&
+                bullet.y + bullet.height > obstacle.y
+            ) {
+                // Explosão ao acertar
+                generateExplosion(obstacle.x, obstacle.y);
+                obstacles.splice(index, 1);
+                bullets.splice(bIndex, 1);
+                score += 10;
+                document.getElementById('score').textContent = score;
+            }
+        });
+
         // Remover obstáculos que saíram da tela
         if (obstacle.y > canvas.height) {
             obstacles.splice(index, 1);
-            score++;
-            document.getElementById('score').textContent = score;
         }
     });
 }
 
-// Função para gerar um novo obstáculo
-function generateObstacles() {
-    const obstacleWidth = 50;
-    const obstacleHeight = 50;
-    const x = Math.random() * (canvas.width - obstacleWidth);
-    obstacles.push({ x: x, y: -obstacleHeight, width: obstacleWidth, height: obstacleHeight });
+// Função para gerar uma explosão
+function generateExplosion(x, y) {
+    for (let i = 0; i < 30; i++) {
+        explosionParticles.push({
+            x: x,
+            y: y,
+            radius: Math.random() * 5 + 1,
+            speedX: Math.random() * 4 - 2,
+            speedY: Math.random() * 4 - 2,
+            color: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
+        });
+    }
+}
+
+// Função para desenhar a explosão
+function drawExplosion() {
+    explosionParticles.forEach((particle, index) => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        ctx.fillStyle = particle.color;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.fill();
+        if (particle.y > canvas.height || particle.x < 0 || particle.x > canvas.width) {
+            explosionParticles.splice(index, 1);
+        }
+    });
 }
 
 // Função para mover o jogador
@@ -114,47 +131,9 @@ function movePlayer() {
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
 }
 
-// Função para atualizar as balas
-function updateBullets() {
-    bullets.forEach((bullet, index) => {
-        bullet.y -= bullet.speed;
-
-        // Verificar colisão com obstáculos
-        obstacles.forEach((obstacle, obstacleIndex) => {
-            if (
-                bullet.x < obstacle.x + obstacle.width &&
-                bullet.x + bullet.width > obstacle.x &&
-                bullet.y < obstacle.y + obstacle.height &&
-                bullet.y + bullet.height > obstacle.y
-            ) {
-                // Explosão
-                createExplosion(obstacle.x, obstacle.y);
-                obstacles.splice(obstacleIndex, 1);
-                bullets.splice(index, 1);
-                score += 10;
-                document.getElementById('score').textContent = score;
-            }
-        });
-
-        // Remover balas que saem da tela
-        if (bullet.y < 0) {
-            bullets.splice(index, 1);
-        }
-    });
-}
-
-// Função para criar partículas de explosão
-function createExplosion(x, y) {
-    for (let i = 0; i < 20; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 3 + 1;
-        const dx = Math.cos(angle) * speed;
-        const dy = Math.sin(angle) * speed;
-        const size = Math.random() * 5 + 2;
-        const color = 'orange';
-
-        particles.push({ x, y, dx, dy, size, color });
-    }
+// Função para atirar
+function shootBullet() {
+    bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 15 });
 }
 
 // Função para atualizar o jogo
@@ -163,16 +142,14 @@ function updateGame() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Desenhar jogador e elementos
+    // Desenhar jogador e obstáculos
     drawPlayer();
     drawObstacles();
     drawBullets();
-    drawParticles();
+    drawExplosion();
     updateObstacles();
-    updateBullets();
     movePlayer();
 
-    // Gerar obstáculos a cada 30 quadros
     if (Math.random() < 0.02) {
         generateObstacles();
     }
@@ -191,7 +168,7 @@ function updateHighScore(currentScore) {
     }
 }
 
-// Função para carregar a melhor pontuação
+// Carregar a melhor pontuação quando o jogo começa
 function loadHighScore() {
     const highScore = localStorage.getItem('highScore');
     if (highScore !== null) {
@@ -201,62 +178,44 @@ function loadHighScore() {
     }
 }
 
-// Eventos para os controles de movimento
-document.getElementById('leftBtn').addEventListener('mousedown', function () {
+// Eventos de controle para dispositivos móveis (botões)
+document.getElementById('leftBtn').addEventListener('touchstart', function (e) {
+    e.preventDefault();
     player.dx = -playerSpeed;
 });
-document.getElementById('rightBtn').addEventListener('mousedown', function () {
+
+document.getElementById('rightBtn').addEventListener('touchstart', function (e) {
+    e.preventDefault();
     player.dx = playerSpeed;
 });
 
-document.getElementById('leftBtn').addEventListener('mouseup', function () {
-    player.dx = 0;
-});
-document.getElementById('rightBtn').addEventListener('mouseup', function () {
-    player.dx = 0;
-});
-
-// Eventos para os controles móveis
-document.getElementById('leftBtn').addEventListener('touchstart', function () {
-    player.dx = -playerSpeed;
-});
-document.getElementById('rightBtn').addEventListener('touchstart', function () {
-    player.dx = playerSpeed;
-});
-
-document.getElementById('leftBtn').addEventListener('touchend', function () {
-    player.dx = 0;
-});
-document.getElementById('rightBtn').addEventListener('touchend', function () {
+document.getElementById('leftBtn').addEventListener('touchend', function (e) {
+    e.preventDefault();
     player.dx = 0;
 });
 
-// Evento para atirar
-document.getElementById('shootBtn').addEventListener('click', function () {
-    bullets.push({
-        x: player.x + player.width / 2 - 5,
-        y: player.y,
-        width: 10,
-        height: 20,
-        speed: 5
-    });
+document.getElementById('rightBtn').addEventListener('touchend', function (e) {
+    e.preventDefault();
+    player.dx = 0;
 });
 
-// Evento de reinício do jogo
+document.getElementById('shootBtn').addEventListener('touchstart', function (e) {
+    e.preventDefault();
+    shootBullet();
+});
+
+// Reiniciar o jogo
 document.getElementById('restartButton').addEventListener('click', function () {
+    gameOver = false;
     score = 0;
     obstacles = [];
     bullets = [];
-    particles = [];
-    gameOver = false;
     player.x = canvas.width / 2 - 25;
-    document.getElementById('score').textContent = score;
+    player.y = canvas.height - 50;
     document.querySelector('.game-over').style.display = 'none';
     updateGame();
 });
 
-// Carregar a melhor pontuação
+// Inicializar o jogo
 loadHighScore();
-
-// Iniciar o jogo
 updateGame();
