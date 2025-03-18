@@ -18,9 +18,9 @@ let obstacles = [];
 let bullets = [];
 let particles = [];
 let player = {
-    x: canvas.width / 2 - 25,
+    x: canvas.width / 2 - 15, // Ajuste para deixar o jogador centralizado
     y: canvas.height - 50,
-    width: 50,
+    width: 30, // Jogador mais estreito
     height: 50,
     color: '#00FF00',
     dx: 0
@@ -199,19 +199,20 @@ function loadHighScore() {
     }
 }
 
-// Eventos para os controles de movimento
-document.getElementById('leftBtn').addEventListener('mousedown', function () {
-    player.dx = -playerSpeed;
-});
-document.getElementById('rightBtn').addEventListener('mousedown', function () {
-    player.dx = playerSpeed;
+// Eventos para os controles de movimento (teclado)
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowLeft' || event.key === 'a') {
+        player.dx = -playerSpeed;
+    }
+    if (event.key === 'ArrowRight' || event.key === 'd') {
+        player.dx = playerSpeed;
+    }
 });
 
-document.getElementById('leftBtn').addEventListener('mouseup', function () {
-    player.dx = 0;
-});
-document.getElementById('rightBtn').addEventListener('mouseup', function () {
-    player.dx = 0;
+document.addEventListener('keyup', function (event) {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'a' || event.key === 'd') {
+        player.dx = 0;
+    }
 });
 
 // Eventos para os controles móveis
@@ -247,7 +248,7 @@ document.getElementById('restartButton').addEventListener('click', function () {
     bullets = [];
     particles = [];
     gameOver = false;
-    player.x = canvas.width / 2 - 25;
+    player.x = canvas.width / 2 - 15; // Garantir que o jogador reinicie centralizado
     document.getElementById('score').textContent = score;
     document.querySelector('.game-over').style.display = 'none';
     updateGame();
