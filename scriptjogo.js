@@ -1,24 +1,18 @@
-// Ajuste do tamanho do canvas para ocupar 100% da largura e altura da tela
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Função para atualizar o tamanho do canvas com base no tamanho da janela
+// Ajuste do tamanho do canvas
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-
-resizeCanvas();  // Chama a função para ajustar o canvas no início
-
-window.addEventListener('resize', resizeCanvas);  // Ajusta o canvas sempre que a janela for redimensionada
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 let score = 0;
 let gameOver = false;
 let playerSpeed = 5;
-let speed = 3;
-let obstacles = [];
-let bullets = [];
-let particles = [];
+let speed = 3; // Velocidade dos obstáculos
 let player = {
     x: canvas.width / 2 - 25,
     y: canvas.height - 50,
@@ -27,6 +21,9 @@ let player = {
     color: '#00FF00',
     dx: 0
 };
+
+let obstacles = [];
+let bullets = [];
 
 // Função para desenhar o jogador
 function drawPlayer() {
@@ -50,31 +47,25 @@ function drawBullets() {
     });
 }
 
-// Função para desenhar as partículas de explosão
-function drawParticles() {
-    particles.forEach((particle, index) => {
-        ctx.fillStyle = particle.color;
-        ctx.fillRect(particle.x, particle.y, particle.size, particle.size);
-
-        // Atualiza as partículas
-        particle.x += particle.dx;
-        particle.y += particle.dy;
-        particle.size *= 0.95; // Diminuindo o tamanho da partícula
-
-        if (particle.size < 0.1) {
-            particles.splice(index, 1); // Remove partículas pequenas
-        }
+// Função para gerar obstáculos (inimigos)
+function generateObstacles() {
+    const obstacleWidth = 50;
+    const obstacleHeight = 50;
+    const x = Math.random() * (canvas.width - obstacleWidth);
+    obstacles.push({
+        x: x,
+        y: -obstacleHeight,
+        width: obstacleWidth,
+        height: obstacleHeight
     });
 }
 
-// Função para atualizar a posição dos obstáculos
+// Função para atualizar obstáculos (movimento para baixo)
 function updateObstacles() {
-    if (gameOver) return;
-
     obstacles.forEach((obstacle, index) => {
         obstacle.y += speed;
 
-        // Verificar colisão
+        // Verificar colisão com o jogador
         if (
             obstacle.x < player.x + player.width &&
             obstacle.x + obstacle.width > player.x &&
@@ -84,9 +75,6 @@ function updateObstacles() {
             gameOver = true;
             document.getElementById('final-score').textContent = score;
             document.querySelector('.game-over').style.display = 'block';
-
-            // Atualiza a melhor pontuação
-            updateHighScore(score);
         }
 
         // Remover obstáculos que saíram da tela
@@ -98,18 +86,11 @@ function updateObstacles() {
     });
 }
 
-// Função para gerar um novo obstáculo
-function generateObstacles() {
-    const obstacleWidth = 50;
-    const obstacleHeight = 50;
-    const x = Math.random() * (canvas.width - obstacleWidth);
-    obstacles.push({ x: x, y: -obstacleHeight, width: obstacleWidth, height: obstacleHeight });
-}
-
 // Função para mover o jogador
 function movePlayer() {
     player.x += player.dx;
 
+    // Impede que o jogador saia da tela
     if (player.x < 0) player.x = 0;
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
 }
@@ -127,8 +108,7 @@ function updateBullets() {
                 bullet.y < obstacle.y + obstacle.height &&
                 bullet.y + bullet.height > obstacle.y
             ) {
-                // Explosão
-                createExplosion(obstacle.x, obstacle.y);
+                // Explosão e remoção do obstáculo e da bala
                 obstacles.splice(obstacleIndex, 1);
                 bullets.splice(index, 1);
                 score += 10;
@@ -143,36 +123,23 @@ function updateBullets() {
     });
 }
 
-// Função para criar partículas de explosão
-function createExplosion(x, y) {
-    for (let i = 0; i < 20; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 3 + 1;
-        const dx = Math.cos(angle) * speed;
-        const dy = Math.sin(angle) * speed;
-        const size = Math.random() * 5 + 2;
-        const color = 'orange';
-
-        particles.push({ x, y, dx, dy, size, color });
-    }
-}
-
 // Função para atualizar o jogo
 function updateGame() {
     if (gameOver) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Desenhar jogador e elementos
+    // Desenhar jogador, obstáculos e balas
     drawPlayer();
     drawObstacles();
     drawBullets();
-    drawParticles();
+
+    // Atualizar obstáculos e balas
     updateObstacles();
     updateBullets();
     movePlayer();
 
-    // Gerar obstáculos a cada 30 quadros
+    // Gerar novos obstáculos a cada 50 quadros
     if (Math.random() < 0.02) {
         generateObstacles();
     }
@@ -180,61 +147,61 @@ function updateGame() {
     requestAnimationFrame(updateGame);
 }
 
-// Função para atualizar a melhor pontuação
-function updateHighScore(currentScore) {
-    const highScore = localStorage.getItem('highScore');
-    if (highScore === null || currentScore > parseInt(highScore)) {
-        localStorage.setItem('highScore', currentScore);
-        document.getElementById('high-score').textContent = currentScore;
-    } else {
-        document.getElementById('high-score').textContent = highScore;
+// Evento de controle do movimento do jogador
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') player.dx = -playerSpeed;
+    if (e.key === 'ArrowRight') player.dx = playerSpeed;
+    if (e.key === ' ') {
+        // Tecla de espaço dispara uma bala
+        bullets.push({
+            x: player.x + player.width / 2 - 5, // Disparo no centro do jogador
+            y: player.y,
+            width: 10,
+            height: 20,
+            speed: 5
+        });
     }
-}
+});
 
-// Função para carregar a melhor pontuação
-function loadHighScore() {
-    const highScore = localStorage.getItem('highScore');
-    if (highScore !== null) {
-        document.getElementById('high-score').textContent = highScore;
-    } else {
-        document.getElementById('high-score').textContent = 0;
-    }
-}
+document.addEventListener('keyup', function () {
+    player.dx = 0;
+});
 
-// Eventos para os controles de movimento
-document.getElementById('leftBtn').addEventListener('mousedown', function () {
+// **Botões Móveis**
+
+let touchMoveLeft = false;
+let touchMoveRight = false;
+
+// Botão da Esquerda
+document.getElementById('leftBtn').addEventListener('touchstart', function (e) {
+    e.preventDefault(); // Impede o comportamento padrão de rolagem
     player.dx = -playerSpeed;
+    touchMoveLeft = true;
 });
-document.getElementById('rightBtn').addEventListener('mousedown', function () {
+
+document.getElementById('leftBtn').addEventListener('touchend', function (e) {
+    e.preventDefault(); // Impede o comportamento padrão de rolagem
+    player.dx = 0;
+    touchMoveLeft = false;
+});
+
+// Botão da Direita
+document.getElementById('rightBtn').addEventListener('touchstart', function (e) {
+    e.preventDefault(); // Impede o comportamento padrão de rolagem
     player.dx = playerSpeed;
+    touchMoveRight = true;
 });
 
-document.getElementById('leftBtn').addEventListener('mouseup', function () {
+document.getElementById('rightBtn').addEventListener('touchend', function (e) {
+    e.preventDefault(); // Impede o comportamento padrão de rolagem
     player.dx = 0;
-});
-document.getElementById('rightBtn').addEventListener('mouseup', function () {
-    player.dx = 0;
+    touchMoveRight = false;
 });
 
-// Eventos para os controles móveis
-document.getElementById('leftBtn').addEventListener('touchstart', function () {
-    player.dx = -playerSpeed;
-});
-document.getElementById('rightBtn').addEventListener('touchstart', function () {
-    player.dx = playerSpeed;
-});
-
-document.getElementById('leftBtn').addEventListener('touchend', function () {
-    player.dx = 0;
-});
-document.getElementById('rightBtn').addEventListener('touchend', function () {
-    player.dx = 0;
-});
-
-// Evento para atirar
+// Evento para disparar balas com o botão de disparo
 document.getElementById('shootBtn').addEventListener('click', function () {
     bullets.push({
-        x: player.x + player.width / 2 - 5,
+        x: player.x + player.width / 2 - 5, // Disparo no centro do jogador
         y: player.y,
         width: 10,
         height: 20,
@@ -247,16 +214,12 @@ document.getElementById('restartButton').addEventListener('click', function () {
     score = 0;
     obstacles = [];
     bullets = [];
-    particles = [];
     gameOver = false;
     player.x = canvas.width / 2 - 25;
     document.getElementById('score').textContent = score;
     document.querySelector('.game-over').style.display = 'none';
     updateGame();
 });
-
-// Carregar a melhor pontuação
-loadHighScore();
 
 // Iniciar o jogo
 updateGame();
