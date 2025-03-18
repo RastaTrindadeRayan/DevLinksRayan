@@ -18,8 +18,8 @@ let obstacles = [];
 let bullets = [];
 let particles = [];
 let player = {
-    x: canvas.width / 2 - 15, // Ajuste para deixar o jogador centralizado
-    y: canvas.height - 80, // Posicionando o jogador um pouco mais acima
+    x: canvas.width / 2 - 15, // Centraliza o jogador na largura da tela
+    y: canvas.height - 150, // Ajuste para deixar o jogador mais acima, evitando sobreposição com botões
     width: 30, // Jogador mais estreito
     height: 80, // Aumentando a altura do jogador
     color: '#00FF00',
@@ -249,7 +249,7 @@ document.getElementById('restartButton').addEventListener('click', function () {
     particles = [];
     gameOver = false;
     player.x = canvas.width / 2 - 15; // Garantir que o jogador reinicie centralizado
-    player.y = canvas.height - 80; // Atualizando a posição do jogador após o reinício
+    player.y = canvas.height - 150; // Reposicionando o jogador acima dos botões
     document.getElementById('score').textContent = score;
     document.querySelector('.game-over').style.display = 'none';
     updateGame();
