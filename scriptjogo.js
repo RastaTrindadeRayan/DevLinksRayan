@@ -98,7 +98,7 @@ function updateObstacles() {
         // Se o obstáculo sair da tela sem ser destruído, diminuir 2 pontos
         if (obstacle.y > canvas.height) {
             obstacles.splice(index, 1);
-            score -= 2;
+            score -= 5;
             document.getElementById('score').textContent = score;  // Atualiza a pontuação na tela
         }
     });
