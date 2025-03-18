@@ -104,20 +104,33 @@ function updateGame() {
 }
 
 // Eventos de controle para dispositivos móveis (botões)
-document.getElementById('leftBtn').addEventListener('click', function () {
+document.getElementById('leftBtn').addEventListener('mousedown', function () {
     player.dx = -playerSpeed;
 });
-
-document.getElementById('rightBtn').addEventListener('click', function () {
+document.getElementById('rightBtn').addEventListener('mousedown', function () {
     player.dx = playerSpeed;
 });
 
-// Parar movimento quando o clique é liberado
+// Parar movimento quando o clique é liberado (com mouse)
 document.getElementById('leftBtn').addEventListener('mouseup', function () {
     player.dx = 0;
 });
-
 document.getElementById('rightBtn').addEventListener('mouseup', function () {
+    player.dx = 0;
+});
+
+// Garantir que o movimento pare quando o botão for solto em dispositivos móveis
+document.getElementById('leftBtn').addEventListener('touchstart', function () {
+    player.dx = -playerSpeed;
+});
+document.getElementById('rightBtn').addEventListener('touchstart', function () {
+    player.dx = playerSpeed;
+});
+
+document.getElementById('leftBtn').addEventListener('touchend', function () {
+    player.dx = 0;
+});
+document.getElementById('rightBtn').addEventListener('touchend', function () {
     player.dx = 0;
 });
 
