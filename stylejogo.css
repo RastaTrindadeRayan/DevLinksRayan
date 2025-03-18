@@ -7,7 +7,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow: hidden;
     font-family: Arial, sans-serif;
 }
 
@@ -18,7 +17,8 @@ canvas {
 }
 
 /* Painel de pontuação */
-.score-board {
+.score-board,
+.high-score {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -29,12 +29,8 @@ canvas {
 
 /* Exibir a melhor pontuação */
 .high-score {
-    position: absolute;
-    top: 20px;
     right: 20px;
-    color: white;
-    font-size: 20px;
-    background-color: #333;
+    left: auto;
 }
 
 /* Tela de Game Over */
@@ -72,15 +68,13 @@ canvas {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    justify-content: space-evenly;
-    gap: 20px;
-    width: 80%;
+    gap: 10px;
     z-index: 10;
 }
 
 .control-button {
-    width: 120px;
-    height: 50px;
+    width: 80px;
+    height: 40px;
     background-color: #444;
     color: #fff;
     font-size: 18px;
@@ -104,5 +98,27 @@ canvas {
     .control-button {
         width: 80px;
         height: 40px;
+    }
+}
+
+/* Estilo da explosão */
+.explosion {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: orange;
+    border-radius: 50%;
+    animation: explosionAnimation 0.5s ease-out;
+}
+
+@keyframes explosionAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
     }
 }
