@@ -95,11 +95,11 @@ function updateObstacles() {
             updateHighScore(score);
         }
 
-        // Remover obstáculos que saíram da tela
+        // Se o obstáculo sair da tela sem ser destruído, diminuir 2 pontos
         if (obstacle.y > canvas.height) {
             obstacles.splice(index, 1);
-            score++;
-            document.getElementById('score').textContent = score;
+            score -= 2;
+            document.getElementById('score').textContent = score;  // Atualiza a pontuação na tela
         }
     });
 }
