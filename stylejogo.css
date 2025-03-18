@@ -7,6 +7,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
     font-family: Arial, sans-serif;
 }
 
@@ -14,11 +15,13 @@ body {
 canvas {
     background-color: #333;
     border: 2px solid white;
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }
 
 /* Painel de pontuação */
-.score-board,
-.high-score {
+.score-board {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -29,8 +32,12 @@ canvas {
 
 /* Exibir a melhor pontuação */
 .high-score {
+    position: absolute;
+    top: 20px;
     right: 20px;
-    left: auto;
+    color: white;
+    font-size: 20px;
+    background-color: #333;
 }
 
 /* Tela de Game Over */
@@ -68,13 +75,15 @@ canvas {
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 10px;
+    justify-content: space-evenly;
+    gap: 20px;
+    width: 80%;
     z-index: 10;
 }
 
 .control-button {
-    width: 80px;
-    height: 40px;
+    width: 120px;
+    height: 50px;
     background-color: #444;
     color: #fff;
     font-size: 18px;
@@ -99,26 +108,9 @@ canvas {
         width: 80px;
         height: 40px;
     }
-}
 
-/* Estilo da explosão */
-.explosion {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: orange;
-    border-radius: 50%;
-    animation: explosionAnimation 0.5s ease-out;
-}
-
-@keyframes explosionAnimation {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    100% {
-        transform: scale(2);
-        opacity: 0;
+    canvas {
+        width: 100% !important;
+        height: 100% !important;
     }
 }
