@@ -4,16 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo de Colisão</title>
+    <title>Jogo de Desviar de Colisões</title>
     <link rel="stylesheet" href="stylejogo.css">
 </head>
 
 <body>
-    <div class="game-container">
-        <div class="player"></div>
-        <div class="score">Pontuação: 0</div>
-        <div class="highscore">Melhor Pontuação: 0</div>
+
+    <div class="score-board">Pontos: <span id="score">0</span></div>
+    <div class="game-over">
+        Jogo Finalizado! <br>
+        Pontuação Final: <span id="final-score"></span> <br>
+        <button class="restart-button" id="restartButton">Reiniciar</button>
     </div>
+
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
     <script src="scriptjogo.js"></script>
 </body>
 
