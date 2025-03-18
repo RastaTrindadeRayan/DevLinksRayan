@@ -12,7 +12,7 @@ window.addEventListener('resize', resizeCanvas);
 
 let score = 0;
 let gameOver = false;
-let playerSpeed = 5;
+let playerSpeed = 8;
 let speed = 3;
 let obstacles = [];
 let bullets = [];
