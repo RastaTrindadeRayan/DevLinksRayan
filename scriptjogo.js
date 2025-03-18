@@ -103,7 +103,25 @@ function updateGame() {
     requestAnimationFrame(updateGame);
 }
 
-// Eventos de controle para dispositivos móveis e desktop
+// Eventos de controle para dispositivos móveis (botões)
+document.getElementById('leftBtn').addEventListener('touchstart', function () {
+    player.dx = -playerSpeed;
+});
+
+document.getElementById('rightBtn').addEventListener('touchstart', function () {
+    player.dx = playerSpeed;
+});
+
+// Parar movimento quando o toque é liberado
+document.getElementById('leftBtn').addEventListener('touchend', function () {
+    player.dx = 0;
+});
+
+document.getElementById('rightBtn').addEventListener('touchend', function () {
+    player.dx = 0;
+});
+
+// Eventos de controle para desktop (teclado)
 document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') player.dx = -playerSpeed;
     if (e.key === 'ArrowRight') player.dx = playerSpeed;
@@ -113,7 +131,7 @@ document.addEventListener('keyup', function () {
     player.dx = 0;
 });
 
-// Botões de controle para dispositivos móveis
+// Botão de reinício
 document.getElementById('restartButton').addEventListener('click', restartGame);
 
 // Iniciar o jogo
