@@ -61,6 +61,8 @@ canvas {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    gap: 20px;
+    padding: 0 20px;
 }
 
 .control-button {
@@ -76,4 +78,16 @@ canvas {
 
 .control-button:active {
     background-color: #555;
+}
+
+/* Estilo para dispositivos móveis */
+@media (max-width: 600px) {
+    .score-board {
+        font-size: 16px;
+    }
+
+    .control-button {
+        width: 80px;
+        height: 40px;
+    }
 }
