@@ -218,6 +218,22 @@ function loadHighScore() {
 }
 
 // Eventos de controle para dispositivos móveis (botões)
+document.getElementById('leftBtn').addEventListener('touchstart', function () {
+    player.dx = -playerSpeed;
+});
+document.getElementById('rightBtn').addEventListener('touchstart', function () {
+    player.dx = playerSpeed;
+});
+document.getElementById('shootBtn').addEventListener('touchstart', shootBullet);
+
+document.getElementById('leftBtn').addEventListener('touchend', function () {
+    player.dx = 0;
+});
+document.getElementById('rightBtn').addEventListener('touchend', function () {
+    player.dx = 0;
+});
+
+// Garantir que o movimento funcione em dispositivos móveis
 document.getElementById('leftBtn').addEventListener('mousedown', function () {
     player.dx = -playerSpeed;
 });
