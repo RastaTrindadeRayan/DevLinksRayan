@@ -54,6 +54,9 @@ function updateObstacles() {
             gameOver = true;
             document.getElementById('final-score').textContent = score;
             document.querySelector('.game-over').style.display = 'block';
+
+            // Atualiza a melhor pontuação
+            updateHighScore(score);
         }
 
         // Remover obstáculos que saíram da tela
@@ -103,6 +106,27 @@ function updateGame() {
     requestAnimationFrame(updateGame);
 }
 
+// Função para atualizar a melhor pontuação
+function updateHighScore(currentScore) {
+    const highScore = localStorage.getItem('highScore');
+    if (highScore === null || currentScore > parseInt(highScore)) {
+        localStorage.setItem('highScore', currentScore);
+        document.getElementById('high-score').textContent = currentScore;
+    } else {
+        document.getElementById('high-score').textContent = highScore;
+    }
+}
+
+// Carregar a melhor pontuação quando o jogo começa
+function loadHighScore() {
+    const highScore = localStorage.getItem('highScore');
+    if (highScore !== null) {
+        document.getElementById('high-score').textContent = highScore;
+    } else {
+        document.getElementById('high-score').textContent = 0;
+    }
+}
+
 // Eventos de controle para dispositivos móveis (botões)
 document.getElementById('leftBtn').addEventListener('mousedown', function () {
     player.dx = -playerSpeed;
@@ -147,5 +171,6 @@ document.addEventListener('keyup', function () {
 // Botão de reinício
 document.getElementById('restartButton').addEventListener('click', restartGame);
 
-// Iniciar o jogo
+// Iniciar o jogo e carregar a melhor pontuação
+loadHighScore();
 updateGame();
