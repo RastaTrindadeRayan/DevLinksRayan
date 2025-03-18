@@ -95,7 +95,7 @@ function updateObstacles() {
             updateHighScore(score);
         }
 
-        // Se o obstáculo sair da tela sem ser destruído, diminuir 2 pontos
+        // Se o obstáculo sair da tela sem ser destruído, diminuir 5 pontos
         if (obstacle.y > canvas.height) {
             obstacles.splice(index, 1);
             score -= 5;
@@ -207,6 +207,15 @@ document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight' || event.key === 'd') {
         player.dx = playerSpeed;
     }
+    if (event.key === ' ') { // Tecla Espaço para disparar
+        bullets.push({
+            x: player.x + player.width / 2 - 5,
+            y: player.y,
+            width: 10,
+            height: 20,
+            speed: 5
+        });
+    }
 });
 
 document.addEventListener('keyup', function (event) {
@@ -230,7 +239,7 @@ document.getElementById('rightBtn').addEventListener('touchend', function () {
     player.dx = 0;
 });
 
-// Evento para atirar
+// Evento para atirar com o botão
 document.getElementById('shootBtn').addEventListener('click', function () {
     bullets.push({
         x: player.x + player.width / 2 - 5,
