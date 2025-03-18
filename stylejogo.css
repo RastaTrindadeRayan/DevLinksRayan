@@ -58,15 +58,19 @@ canvas {
 .controls {
     position: absolute;
     bottom: 20px;
-    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: space-evenly;
     gap: 20px;
-    padding: 0 20px;
+    width: 80%;
+    /* Reduz a largura dos controles */
+    z-index: 10;
+    /* Coloca os controles acima do canvas */
 }
 
 .control-button {
-    width: 100px;
+    width: 120px;
     height: 50px;
     background-color: #444;
     color: #fff;
