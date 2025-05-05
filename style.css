@@ -1,0 +1,252 @@
+* {
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+:root{
+--text-color: white; 
+--bg-url: url(./assets/bg-mobile.jpg);
+--stroke-color: rgba(61, 20, 20, 0.993);
+--surface-color: rgba(218, 63, 63, 0.555);
+--surface-color-hover: (255, 255, 255, 0.05);
+--switch-bg-url: url(./assets/moon-star.svg);
+}
+
+.Light {
+  --text-color: black;
+  --bg-url: url(./assets/bg-mobilewhite.jpg);
+  --stroke-color: rgb(0, 110, 255);
+  --surface-color: rgba(64, 191, 230, 0.274);
+  --switch-bg-url: url(./assets/sun.svg);
+}
+#intro {
+  display: flex;
+align-items: center;
+justify-content: center;
+background:var(--surface-color);
+border:7px outset var(--stroke-color);
+  border-radius: 35px;
+padding: 00px 00px 00px 00px;
+}
+body {
+  
+  background: var(--bg-url)no-repeat top center/cover;
+  height: auto;
+}
+body * {
+  font-family: "inter", sans-serif;
+  color: var(--text-color);
+}
+#container {
+  width: 100%;
+  max-width: 588px;
+  margin: auto;
+  padding: 0 24px;
+  
+ 
+}
+#profile {
+  text-align: center;
+  padding: 15px;
+
+
+  
+}
+#profile h1 {
+  padding: 00px 20px 00px 20px;
+}
+#profile img{
+
+  width: 112px;
+  border:var(--stroke-color);
+  border-radius: 100px;
+    
+transition: all 500ms;
+}
+#profile p {
+  font-weight: 500;
+  line-height: 24px;
+  margin-top: 8px;
+ 
+}
+
+#switch {
+  position: relative;
+  width: 64px;
+
+  margin: 4px auto;
+}
+
+
+#switch button {
+  width: 32px;
+  height: 32px;
+  background: white var( --switch-bg-url) no-repeat center;
+  border: 0;
+  border-radius: 50%;
+animation: slide-out 0.4s ;
+  position: absolute;
+  top:50%;
+ left: 0;
+
+  z-index: 1;
+  transform: translateY(-50%);
+ border: 1px solid var(--stroke-color);
+  transition: all 0.5s;
+}
+.Light #switch button{
+  animation: slide-in 0.4s forwards; 
+
+}
+
+#switch span {
+ display: block;
+  width: 64px;
+  height: 24px;
+  background: var(--surface-color);
+  border: 1px solid var(--stroke-color);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 9999px;
+  animation: slide-right 0.2s;
+}
+
+ul {
+ 
+  list-style:none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+}
+ul li a  {
+
+  display: flex;
+align-items: center;
+justify-content: center;
+
+padding: 16px 24px;
+
+background: var(--surface-color);
+border: 4px double var(--stroke-color);
+border-radius: 8px;
+backdrop-filter: blur(4px);
+-webkit-backdrop-filter: blur(4px);
+text-decoration: none;
+font-weight: 500;
+transition: background 500ms;
+  
+}
+ul li a:hover {
+  background: var(--surface-color-hover);
+  border: 11.5px double var(--stroke-color);
+  transition:all 500ms;
+}
+#profile img:hover {
+
+  width: 130px;
+  border:7px solid var(--stroke-color);
+  border-radius: 100.5px;
+  transition: all 500ms;
+    
+
+}
+#logos {
+ display: flex;
+justify-content: center;
+  font-size: 24px;
+  padding: 24px 0;
+
+}
+#logos a {
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 16px;
+transition: background 0.5s;
+border-radius: 50%;
+}
+footer {
+  padding: 24px 0;
+  text-align: center;
+  font-size: 14px;
+  
+}
+
+
+@media (min-width: 700px) {
+ :root {
+  --bg-url:  url(./assets/bg.jpg);
+ }
+
+ .Light {
+  --bg-url:  url(./assets/bgdesktoplight.jpg);
+ }
+}
+@keyframes slide-in{
+  from {
+    left: o;
+  } to {
+    left: 50%;
+  }
+}
+@keyframes slide-out{
+  from {
+    left: 50%;
+  } to {
+    left: 0%;
+  }
+}
+
+
+
+/* Container do jogo */
+.game-container {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  background-color: #87ceeb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Jogador */
+.player {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: #ff6347;
+  border-radius: 5px;
+  bottom: 20px;
+  left: 50px;
+}
+
+/* Obstáculos */
+.obstacle {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #228B22;
+  border-radius: 5px;
+}
+
+/* Pontuação */
+.score,
+.highscore {
+  position: absolute;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  font-size: 20px;
+}
+
+.score {
+  top: 10px;
+  left: 20px;
+}
+
+.highscore {
+  top: 10px;
+  right: 20px;
+}

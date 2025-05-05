@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Desviar e Explodir Inimigos</title>
+    <link rel="stylesheet" href="stylejogo.css">
+</head>
+
+<body>
+
+    <div class="score-board">Pontos: <span id="score">0</span></div>
+    <div class="high-score">Melhor Pontuação: <span id="high-score">0</span></div> <!-- Melhor pontuação -->
+    <div class="game-over">
+        Jogo Finalizado! <br>
+        Pontuação Final: <span id="final-score"></span> <br>
+        <button class="restart-button" id="restartButton">Reiniciar</button>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="controls">
+        <button class="control-button" id="leftBtn">←</button>
+        <button class="control-button" id="rightBtn">→</button>
+        <button class="control-button" id="shootBtn">🔥</button>
+       
+        
+        
+    </div>
+
+    <script src="scriptjogo.js"></script>
+</body>
+
+</html>
