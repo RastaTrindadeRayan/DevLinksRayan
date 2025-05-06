@@ -29,6 +29,24 @@ border:7px outset var(--stroke-color);
   border-radius: 35px;
 padding: 00px 00px 00px 00px;
 }
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%;
+  /* Proporção 16:9 */
+  height: 0;
+  overflow: hidden;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 body {
   
   background: var(--bg-url)no-repeat top center/cover;
