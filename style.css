@@ -6,10 +6,10 @@
 }
 :root{
 --text-color: white; 
---bg-url: url(./assets/bg-mobile.jpg);
+--bg-color: radial-gradient(circle, rgb(76, 24, 24)0, #181862);
 --stroke-color: rgba(61, 20, 20, 0.993);
 --surface-color: rgba(218, 63, 63, 0.555);
---surface-color-hover: (255, 255, 255, 0.05);
+--surface-color-hover: rgba(24, 42, 174, 0.488);
 --switch-bg-url: url(./assets/moon-star.svg);
 }
 
@@ -19,6 +19,7 @@
   --stroke-color: rgb(0, 110, 255);
   --surface-color: rgba(64, 191, 230, 0.274);
   --switch-bg-url: url(./assets/sun.svg);
+  
 }
 #intro {
   display: flex;
