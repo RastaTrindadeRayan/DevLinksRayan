@@ -155,6 +155,37 @@ criado por
 
  
  <script src="script.js"></script> 
+<!-- Cookie Consent Banner -->
+<div id="cookie-consent-container" class="cookie-consent">
+  <div class="cookie-content">
+    <p>Nós utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa <a
+        href="/politica-de-privacidade.html" id="cookie-policy-link">Política de Privacidade</a> e uso de cookies.</p>
+    <div class="cookie-buttons">
+      <button id="accept-all-cookies" class="cookie-btn accept-btn">Aceitar todos</button>
+      <button id="accept-necessary-cookies" class="cookie-btn necessary-btn">Aceitar apenas necessários</button>
+      <button id="open-cookie-settings" class="cookie-btn settings-btn">Configurações</button>
+    </div>
+  </div>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings-modal" class="cookie-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h3>Preferências de Cookies</h3>
+      <div class="cookie-option">
+        <input type="checkbox" id="necessary-cookies" checked disabled>
+        <label for="necessary-cookies">Cookies Necessários</label>
+        <p>Essenciais para o funcionamento do site. Sempre ativos.</p>
+      </div>
+      <div class="cookie-option">
+        <input type="checkbox" id="analytics-cookies">
+        <label for="analytics-cookies">Cookies de Análise</label>
+        <p>Nos ajudam a entender como você usa nosso site.</p>
+      </div>
+      <button id="save-cookie-settings" class="cookie-btn save-btn">Salvar Preferências</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
