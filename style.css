@@ -15,7 +15,7 @@
 
 .Light {
   --text-color: black;
-  --bg-color: radial-gradient(circle,rgb(250, 188, 188)0, #8484f2);
+  --bg-color: radial-gradient(circle,rgb(242, 245, 83)0, #8484f2);
   --stroke-color: rgb(0, 110, 255);
   --surface-color: rgba(64, 191, 230, 0.274);
   --switch-bg-url: url(./assets/sun.svg);
