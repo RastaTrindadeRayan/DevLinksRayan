@@ -67,7 +67,7 @@ body * {
 }
 #profile {
   text-align: center;
-  padding: 15px;
+  padding-top: 60px;
 
 
   
@@ -168,7 +168,11 @@ ul li a:hover {
   border:7px solid var(--stroke-color);
   border-radius: 100.5px;
   transition: all 500ms;
-    
+  
+      transform: scale(2.2);
+      border: 7px solid var(--stroke-color);
+      
+
 
 }
 #logos {
