@@ -1,53 +1,35 @@
-<h1 align="center"> Devlinks </h1>
+# Rayan Trindade - Portfólio Pessoal
 
-<p align="center">
-Programa exclusivo e gratuito, promovido pela Rocketseat para ensino de tecnologias WEB. <br/>
-</p>
-
-<p align="center">
-  <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#memo-licença">Licença</a>
-</p>
-
-<p align="center">
-  <img alt="Projeto Devlinks" src=".github/preview.jpg">
-</p>
-
-<br>
-
-<p align="center">
-  <img alt="projeto Habits" src=".github/preview.jpg" width="100%">
-</p>
+Este é o portfólio pessoal de Rayan Trindade, estudante de Ciência da Computação. O objetivo deste site é apresentar informações sobre sua trajetória, projetos e formas de contato.
 
 ## 🚀 Tecnologias
 
-Esse projeto foi desenvolvido com as seguintes tecnologias:
+Este projeto foi desenvolvido com as seguintes tecnologias:
 
 - HTML e CSS
 - JavaScript
-- Git e Github
-- Figma
+- Git e GitHub
 
 ## 💻 Projeto
 
-O Devlinks é um projeto para agregação de sites em um cartão de visita online
+O portfólio de Rayan Trindade inclui:
 
-- [Visite o projeto online](https://maykbrito.github.io/nlw-setup)
+- **Página Inicial:** Breve biografia e links para outras plataformas.
+- **Biografia:** Informações detalhadas sobre a vida e interesses de Rayan.
+- **Downloads:** Seção para download de jogos (com aviso legal).
+- **Jogo:** Um jogo interativo desenvolvido por Rayan.
+- **Política de Privacidade:** Informações sobre o uso de dados e cookies.
 
 ## 🔖 Layout
 
-Você pode visualizar o layout do projeto através [DESSE LINK](https://www.figma.com/design/u6IFdO270kV3xt25sMSnn1/DevLinks-%E2%80%A2-Projeto-Discover-(Community)?node-id=1437-191&t=1MXQ25IyNFk7pMSX-0). É necessário ter conta no [Figma](https://figma.com) para acessá-lo.
+O layout do projeto é responsivo e adaptável a diferentes dispositivos.
 
 ## :memo: Licença
 
-Esse projeto está sob a licença MIT.
+Este projeto está sob a licença MIT.
 
 ---
 
-Feito com ♥ by Rocketseat :wave: [Participe da nossa comunidade!](https://discord.gg/rocketseat)# RayanTrindader
-# RayanTrindader
-# RayanTrindader
-# RayanTrindader
-# RayanTrindader
+Feito com ♥ por Rayan Trindade :wave:
+
+
