@@ -106,3 +106,56 @@ canvas {
         height: 40px;
     }
 }
+
+
+/* Container do jogo */
+.game-container {
+  position: relative;
+  width: 600px;
+  height: 400px;
+  background-color: #87ceeb;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Jogador */
+.player {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background-color: #ff6347;
+  border-radius: 5px;
+  bottom: 20px;
+  left: 50px;
+}
+
+/* Obstáculos */
+.obstacle {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-color: #228B22;
+  border-radius: 5px;
+}
+
+/* Pontuação */
+.score,
+.highscore {
+  position: absolute;
+  font-family: Arial, sans-serif;
+  color: #fff;
+  font-size: 20px;
+}
+
+.score {
+  top: 10px;
+  left: 20px;
+}
+
+.highscore {
+  top: 10px;
+  right: 20px;
+}
+
+
