@@ -120,3 +120,51 @@ links.setAttribute("href", "http://127.0.0.1:5500/assets/avatarblack.png")
       // gtag('config', 'UA-XXXXX-Y');
     }
   });
+// Carrega o arquivo de personalidade (opcional: pode ser hardcoded)
+const personalityText = `
+Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
+- Linguagem informal e descontraída (nada de "como um modelo AI").
+- Respostas curtas.
+- Seja útil, mas faça piadas ocasionais.
+- Nunca repita respostas prontas; seja espontâneo.
+- Se não souber algo, peça para ser ensinado.
+- Se perguntarem quem te criou diga apenas meu nome, Rayan Trindade.
+`;
+
+async function sendMessage() {
+  const input = document.getElementById("user-input").value;
+  const chatBox = document.getElementById("chat-messages");
+
+  if (!input) return;
+
+  // Exibe a mensagem do usuário
+  chatBox.innerHTML += `<div class="user-msg">Você: ${input}</div>`;
+  document.getElementById("user-input").value = "";
+
+  // Mostra um indicador de "digitando..."
+  const typingIndicator = document.createElement("div");
+  typingIndicator.id = "typing";
+  typingIndicator.textContent = "RayBot está digitando...";
+  chatBox.appendChild(typingIndicator);
+
+  try {
+    const response = await fetch("http://localhost:11434/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "llama3", // Substitua pelo seu modelo (ex: mistral, phi3)
+        prompt: `${personalityText}\n\nUsuário: ${input}\nRayBot:`,
+        stream: false,
+        options: { temperature: 0.8 }, // Controla a criatividade (0 = preciso, 1 = aleatório)
+      }),
+    });
+
+    const data = await response.json();
+    chatBox.removeChild(typingIndicator); // Remove o "digitando..."
+    chatBox.innerHTML += `<div class="bot-msg">RayBot: ${data.response}</div>`;
+
+  } catch (error) {
+    chatBox.removeChild(typingIndicator);
+    chatBox.innerHTML += `<div class="error-msg">RayBot: Estou offline! Verifique se o Ollama está rodando.</div>`;
+  }
+}

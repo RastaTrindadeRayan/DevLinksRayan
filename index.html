@@ -83,6 +83,93 @@
 
 
     </ul>
+   <style>
+    #chat-container {
+      width: 400px;
+      margin: 20px auto;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+    }
+  
+    #chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-radius: 5px;
+    }
+  
+    #user-input {
+      width: 70%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+  
+    button {
+      padding: 8px 15px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  
+    .user-msg {
+      color: #2196F3;
+      margin: 5px 0;
+    }
+  
+    .bot-msg {
+      color: #4CAF50;
+      margin: 5px 0;
+    }
+  </style>
+  </head>
+  
+  <body>
+    <div id="chat-container">
+      <h2>Chatbot Rayan</h2>
+      <div id="chat-messages"></div>
+      <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById('user-input').value;
+        const chatBox = document.getElementById('chat-messages');
+
+        // Exibe mensagem do usuário
+        chatBox.innerHTML += `<div class="user-msg"><strong>Você:</strong> ${input}</div>`;
+        document.getElementById('user-input').value = '';
+
+        try {
+          // Chama a API via Netlify Function
+          const response = await fetch('/.netlify/functions/ollama', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Basic ' + btoa('usuario:senha') // Substitua
+            },
+            body: JSON.stringify({
+              model: "phi3",
+              prompt: input,
+              stream: false
+            })
+          });
+
+          const data = await response.json();
+          chatBox.innerHTML += `<div class="bot-msg"><strong>Bot:</strong> ${data.response}</div>`;
+          chatBox.scrollTop = chatBox.scrollHeight;
+        } catch (error) {
+          chatBox.innerHTML += `<div class="bot-msg" style="color:red">Erro: ${error.message}</div>`;
+        }
+      }
+    </script>
     <div class="video-container">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/7wzRooVxzP0?si=814CJ7TmmLKzf8WZ 
                 title=" Player de vídeo do YouTube sobre Rayan Trindade" frameborder="0"
