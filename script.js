@@ -156,7 +156,7 @@ async function sendMessage() {
   chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    const response = await fetch('https://trindaderayan.com.br/ollama/api/generate', {
+    const response = await fetch('https://trindaderayan.com.br/', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
