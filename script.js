@@ -168,24 +168,16 @@ async function sendMessage() {
     chatBox.innerHTML += `<div class="error-msg">RayBot: Estou offline! Verifique se o Ollama está rodando.</div>`;
   }
 }
-// Substitua pelo IP externo da sua VM
-const OLLAMA_API = "http://10.128.0.3/api/generate";
-
-async function sendMessage() {
-  try {
-    const response = await fetch(OLLAMA_API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: "phi3",
-        prompt: input,
-        stream: false
-      })
-    });
-    // ... resto do código
-  } catch (error) {
-    console.error("Erro:", error);
-    // Mensagem mais amigável:
-    chatBox.innerHTML += `<div style="color:red">Servidor temporariamente offline. Tente novamente mais tarde.</div>`;
-  }
-}
+const response = await fetch('http://35.237.109.197:11434/api/generate', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  body: JSON.stringify({
+    model: "phi3",
+    prompt: input,
+    stream: false
+  }),
+  mode: 'cors' // Adicione esta linha
+});
