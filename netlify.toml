@@ -1,0 +1,20 @@
+[build]
+  command = "npm run build"  # Ou seu comando de build específico
+  publish = "dist"          # Pasta onde seu site é gerado (pode ser "public", "build", etc.)
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"  # Otimiza as funções
+
+[[redirects]]
+  from = "/api/ollama"
+  to = "/.netlify/functions/ollama"
+  status = 200
+  force = true
+  headers = { Access-Control-Allow-Origin = "*" }
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
