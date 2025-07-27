@@ -264,7 +264,51 @@ a:focus {
   transition: transform var(--transition-speed) ease;
 }
 
+ #chat-container {
+   width: 400px;
+   margin: 20px auto;
+   border: 1px solid #ddd;
+   border-radius: 10px;
+   padding: 15px;
+   font-family: Arial, sans-serif;
+ }
 
+ #chat-messages {
+   height: 300px;
+   overflow-y: auto;
+   margin-bottom: 10px;
+   padding: 10px;
+   background: #f9f9f9;
+   border-radius: 5px;
+ }
+
+ #user-input {
+   width: 70%;
+   padding: 8px;
+   border: 1px solid #ddd;
+   border-radius: 4px;
+ }
+
+ button {
+   padding: 8px 15px;
+   background: #4CAF50;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+ }
+
+ .user-msg {
+   color: #2196F3;
+   margin: 5px 0;
+ }
+
+ .bot-msg {
+   color: #4CAF50;
+   margin: 5px 0;
+ }
+
+ 
 
 
 #chatbot {
