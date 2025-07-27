@@ -1,184 +1,165 @@
- function toggleMode()  {
- const html= document.documentElement
-html.classList.toggle("Light")
+// ========== CONFIGURAÇÕES ========== //
+const OLLAMA_CONFIG = {
+  endpoint: "http://34.67.216.224:11434/api/generate", // Substitua pelo seu endpoint
+  model: "phi3", // Altere para o modelo desejado
+  personality: `Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
+- Linguagem informal e descontraída
+- Respostas curtas (máximo 3 linhas)
+- Foco em portfólio, TI e projetos pessoais
+- Se não souber algo, diga "Vou perguntar ao Rayan!"`
+};
 
-const img = document.querySelector("#profile img")
+// ========== ELEMENTOS DO DOM ========== //
+const elements = {
+  html: document.documentElement,
+  profileImg: document.querySelector("#profile img"),
+  switchBtn: document.getElementById('switch'),
+  chatToggle: document.getElementById('chat-toggle'),
+  chatContainer: document.getElementById('chat-container'),
+  chatMessages: document.getElementById('chat-messages'),
+  userInput: document.getElementById('user-input'),
+  cookieConsent: document.getElementById('cookie-consent-container'),
+  cookieModal: document.getElementById('cookie-settings-modal')
+};
 
-if(html.classList.contains("Light")) {
-
-  img.setAttribute("src", "./assets/euterno.jpeg") 
-} else {
+// ========== MODO CLARO/ESCURO ========== //
+function toggleMode() {
+  elements.html.classList.toggle("Light");
   
-  img.setAttribute("src", "./assets/avatarblack.png")
-}
-if(html.classList.contains("Light")) {
-  img.setAttribute("alt", "Foto de Rayan Trindade com um leve sorriso de camiseta listrada em azul preto branco e vermelho com a parede de fundo da cor cinza claro")
-} else {
-img.setAttribute(
-  "alt",
-  "Rayan com uma touca colorida com as cores da bandeira da Etiopia e uma cachoeira de fundo")
+  // Alternar imagem do perfil
+  if(elements.html.classList.contains("Light")) {
+    elements.profileImg.setAttribute("src", "./assets/euterno.jpeg");
+    elements.profileImg.setAttribute("alt", "Foto de Rayan Trindade com um leve sorriso de camiseta listrada em azul preto branco e vermelho com a parede de fundo da cor cinza claro");
+  } else {
+    elements.profileImg.setAttribute("src", "./assets/avatarblack.png");
+    elements.profileImg.setAttribute("alt", "Rayan com uma touca colorida com as cores da bandeira da Etiopia e uma cachoeira de fundo");
+  }
 }
 
-if(html.classList.contains("Light")) {
-
- links.setAttribute("href", "http://127.0.0.1:5500/assets/Avatar.png")
- } else {
-  
-links.setAttribute("href", "http://127.0.0.1:5500/assets/avatarblack.png")
-} 
- }
- 
-  // Cookie Consent Manager
-  document.addEventListener('DOMContentLoaded', function() {
-    const cookieContainer = document.getElementById('cookie-consent-container');
-    const acceptAllBtn = document.getElementById('accept-all-cookies');
-    const necessaryBtn = document.getElementById('accept-necessary-cookies');
-    const settingsBtn = document.getElementById('open-cookie-settings');
-    const cookieModal = document.getElementById('cookie-settings-modal');
-    const closeModal = document.querySelector('.close-modal');
-    const saveSettingsBtn = document.getElementById('save-cookie-settings');
-    const analyticsCheckbox = document.getElementById('analytics-cookies');
-    
-    // Verifica se já tem preferências salvas
-    const cookiePrefs = getCookiePreferences();
-    
-    if (!cookiePrefs) {
-      // Mostra o banner se não tiver preferências salvas
-      cookieContainer.style.display = 'block';
-    } else {
-      // Carrega os cookies de acordo com as preferências salvas
-      loadCookies(cookiePrefs);
-    }
-    
-    // Configura os botões
-    acceptAllBtn.addEventListener('click', function() {
-      setCookiePreferences({ necessary: true, analytics: true });
-      cookieContainer.style.display = 'none';
-      loadCookies({ necessary: true, analytics: true });
-    });
-    
-    necessaryBtn.addEventListener('click', function() {
-      setCookiePreferences({ necessary: true, analytics: false });
-      cookieContainer.style.display = 'none';
-      loadCookies({ necessary: true, analytics: false });
-    });
-    
-    settingsBtn.addEventListener('click', function() {
-      cookieModal.style.display = 'block';
-      // Atualiza o checkbox com as preferências atuais
-      const prefs = getCookiePreferences();
-      analyticsCheckbox.checked = prefs ? prefs.analytics : false;
-    });
-    
-    closeModal.addEventListener('click', function() {
-      cookieModal.style.display = 'none';
-    });
-    
-    saveSettingsBtn.addEventListener('click', function() {
-      const prefs = {
-        necessary: true,
-        analytics: analyticsCheckbox.checked
-      };
-      setCookiePreferences(prefs);
-      cookieModal.style.display = 'none';
-      cookieContainer.style.display = 'none';
-      loadCookies(prefs);
-    });
-    
-    // Fecha o modal ao clicar fora
-    window.addEventListener('click', function(event) {
-      if (event.target === cookieModal) {
-        cookieModal.style.display = 'none';
-      }
-    });
-    
-    // Funções auxiliares
-    function getCookiePreferences() {
-      const prefs = localStorage.getItem('cookiePreferences');
-      return prefs ? JSON.parse(prefs) : null;
-    }
-    
-    function setCookiePreferences(prefs) {
-      localStorage.setItem('cookiePreferences', JSON.stringify(prefs));
-    }
-    
-    function loadCookies(prefs) {
-      // Cookies necessários são sempre carregados
-      // Aqui você carrega outros cookies baseado nas preferências
-      if (prefs.analytics) {
-        loadAnalyticsCookies();
-      }
-    }
-    
-    function loadAnalyticsCookies() {
-      // Exemplo: Google Analytics
-      // Substitua pelo seu código real de analytics
-      console.log('Carregando cookies de analytics...');
-      // window.dataLayer = window.dataLayer || [];
-      // function gtag(){dataLayer.push(arguments);}
-      // gtag('js', new Date());
-      // gtag('config', 'UA-XXXXX-Y');
-    }
-  });
-// Carrega o arquivo de personalidade (opcional: pode ser hardcoded)
-const personalityText = `
-Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
-- Linguagem informal e descontraída (nada de "como um modelo AI").
-- Respostas curtas.
-- Seja útil, mas faça piadas ocasionais.
-- Nunca repita respostas prontas; seja espontâneo.
-- Se não souber algo, peça para ser ensinado.
-- Se perguntarem quem te criou diga apenas meu nome, Rayan Trindade.
-`;
-// Funções do Chatbot melhoradas
+// ========== CHATBOT ========== //
 function toggleChat() {
-  const chat = document.getElementById('chat-container');
-  const toggleBtn = document.getElementById('chat-toggle');
-  chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
-  toggleBtn.style.display = chat.style.display === 'block' ? 'none' : 'flex';
+  elements.chatContainer.style.display = elements.chatContainer.style.display === 'none' ? 'block' : 'none';
+  elements.chatToggle.style.display = elements.chatContainer.style.display === 'block' ? 'none' : 'flex';
 }
 
 async function sendMessage() {
-  const input = document.getElementById('user-input').value.trim();
-  const chatBox = document.getElementById('chat-messages');
-
-  if (!input) return;
+  const message = elements.userInput.value.trim();
+  if (!message) return;
 
   // Exibe mensagem do usuário
-  chatBox.innerHTML += `<div style="color:#2196F3; margin:5px 0;"><strong>Você:</strong> ${input}</div>`;
-  document.getElementById('user-input').value = '';
-  chatBox.scrollTop = chatBox.scrollHeight;
+  appendMessage('Você', message, 'user-message');
+  elements.userInput.value = '';
 
-  // Mostra "digitando..."
-  const typingIndicator = document.createElement('div');
-  typingIndicator.innerHTML = '<div style="color:#666; margin:5px 0;"><em>RayBot está digitando...</em></div>';
-  chatBox.appendChild(typingIndicator);
-  chatBox.scrollTop = chatBox.scrollHeight;
+  // Exibe "digitando..."
+  const typingIndicator = appendMessage('RayBot', 'Digitando...', 'typing-message');
 
   try {
-    const response = await fetch('https://trindaderayan.com.br/', {
+    const response = await fetch(OLLAMA_CONFIG.endpoint, {
       method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: "phi3",
-        prompt: input,
+        model: OLLAMA_CONFIG.model,
+        prompt: `${OLLAMA_CONFIG.personality}\n\nUsuário: ${message}\nRayBot:`,
         stream: false
       })
     });
 
-    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+    if (!response.ok) throw new Error(`Erro: ${response.status}`);
     
     const data = await response.json();
     typingIndicator.remove();
-    chatBox.innerHTML += `<div style="color:#4CAF50; margin:5px 0;"><strong>RayBot:</strong> ${data.response}</div>`;
+    appendMessage('RayBot', data.response, 'bot-message');
   } catch (error) {
     typingIndicator.remove();
-    chatBox.innerHTML += `<div style="color:red; margin:5px 0;">⚠️ Erro: ${error.message || "Servidor indisponível"}</div>`;
+    appendMessage('Sistema', `⚠️ ${error.message || "Servidor offline"}`, 'error-message');
     console.error("Erro no chatbot:", error);
-  } finally {
-    chatBox.scrollTop = chatBox.scrollHeight;
   }
 }
+
+function appendMessage(sender, text, cssClass) {
+  const messageDiv = document.createElement('div');
+  messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+  messageDiv.className = cssClass;
+  elements.chatMessages.appendChild(messageDiv);
+  elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
+  return messageDiv;
+}
+
+// ========== COOKIE CONSENT ========== //
+function setupCookieConsent() {
+  const getCookiePreferences = () => JSON.parse(localStorage.getItem('cookiePreferences'));
+  const setCookiePreferences = (prefs) => localStorage.setItem('cookiePreferences', JSON.stringify(prefs));
+
+  const loadAnalyticsCookies = () => {
+    console.log('Cookies de analytics carregados');
+    // Implemente seu código de analytics aqui
+  };
+
+  // Elementos
+  const acceptAllBtn = document.getElementById('accept-all-cookies');
+  const necessaryBtn = document.getElementById('accept-necessary-cookies');
+  const settingsBtn = document.getElementById('open-cookie-settings');
+  const closeModal = document.querySelector('.close-modal');
+  const saveSettingsBtn = document.getElementById('save-cookie-settings');
+  const analyticsCheckbox = document.getElementById('analytics-cookies');
+
+  // Verifica preferências salvas
+  const cookiePrefs = getCookiePreferences();
+  if (!cookiePrefs) {
+    elements.cookieConsent.style.display = 'block';
+  } else if (cookiePrefs.analytics) {
+    loadAnalyticsCookies();
+  }
+
+  // Event Listeners
+  acceptAllBtn.addEventListener('click', () => {
+    setCookiePreferences({ necessary: true, analytics: true });
+    elements.cookieConsent.style.display = 'none';
+    loadAnalyticsCookies();
+  });
+
+  necessaryBtn.addEventListener('click', () => {
+    setCookiePreferences({ necessary: true, analytics: false });
+    elements.cookieConsent.style.display = 'none';
+  });
+
+  settingsBtn.addEventListener('click', () => {
+    elements.cookieModal.style.display = 'block';
+    analyticsCheckbox.checked = cookiePrefs ? cookiePrefs.analytics : false;
+  });
+
+  closeModal.addEventListener('click', () => {
+    elements.cookieModal.style.display = 'none';
+  });
+
+  saveSettingsBtn.addEventListener('click', () => {
+    const prefs = {
+      necessary: true,
+      analytics: analyticsCheckbox.checked
+    };
+    setCookiePreferences(prefs);
+    elements.cookieModal.style.display = 'none';
+    elements.cookieConsent.style.display = 'none';
+    if (prefs.analytics) loadAnalyticsCookies();
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === elements.cookieModal) {
+      elements.cookieModal.style.display = 'none';
+    }
+  });
+}
+
+// ========== INICIALIZAÇÃO ========== //
+document.addEventListener('DOMContentLoaded', () => {
+  // Inicializa chatbot
+  elements.chatContainer.style.display = 'none';
+  
+  // Configura cookies
+  setupCookieConsent();
+  
+  // Verifica se está no modo escuro
+  if (!elements.html.classList.contains("Light")) {
+    toggleMode();
+  }
+});
