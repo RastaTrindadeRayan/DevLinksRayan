@@ -130,54 +130,55 @@ Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
 - Se não souber algo, peça para ser ensinado.
 - Se perguntarem quem te criou diga apenas meu nome, Rayan Trindade.
 `;
+// Funções do Chatbot melhoradas
+function toggleChat() {
+  const chat = document.getElementById('chat-container');
+  const toggleBtn = document.getElementById('chat-toggle');
+  chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
+  toggleBtn.style.display = chat.style.display === 'block' ? 'none' : 'flex';
+}
 
 async function sendMessage() {
-  const input = document.getElementById("user-input").value;
-  const chatBox = document.getElementById("chat-messages");
+  const input = document.getElementById('user-input').value.trim();
+  const chatBox = document.getElementById('chat-messages');
 
   if (!input) return;
 
-  // Exibe a mensagem do usuário
-  chatBox.innerHTML += `<div class="user-msg">Você: ${input}</div>`;
-  document.getElementById("user-input").value = "";
+  // Exibe mensagem do usuário
+  chatBox.innerHTML += `<div style="color:#2196F3; margin:5px 0;"><strong>Você:</strong> ${input}</div>`;
+  document.getElementById('user-input').value = '';
+  chatBox.scrollTop = chatBox.scrollHeight;
 
-  // Mostra um indicador de "digitando..."
-  const typingIndicator = document.createElement("div");
-  typingIndicator.id = "typing";
-  typingIndicator.textContent = "RayBot está digitando...";
+  // Mostra "digitando..."
+  const typingIndicator = document.createElement('div');
+  typingIndicator.innerHTML = '<div style="color:#666; margin:5px 0;"><em>RayBot está digitando...</em></div>';
   chatBox.appendChild(typingIndicator);
+  chatBox.scrollTop = chatBox.scrollHeight;
 
   try {
-    const response = await fetch("http://localhost:11434/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const response = await fetch('https://trindaderayan.com.br/ollama/api/generate', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
-        model: "llama3", // Substitua pelo seu modelo (ex: mistral, phi3)
-        prompt: `${personalityText}\n\nUsuário: ${input}\nRayBot:`,
-        stream: false,
-        options: { temperature: 0.8 }, // Controla a criatividade (0 = preciso, 1 = aleatório)
-      }),
+        model: "phi3",
+        prompt: input,
+        stream: false
+      })
     });
 
+    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+    
     const data = await response.json();
-    chatBox.removeChild(typingIndicator); // Remove o "digitando..."
-    chatBox.innerHTML += `<div class="bot-msg">RayBot: ${data.response}</div>`;
-
+    typingIndicator.remove();
+    chatBox.innerHTML += `<div style="color:#4CAF50; margin:5px 0;"><strong>RayBot:</strong> ${data.response}</div>`;
   } catch (error) {
-    chatBox.removeChild(typingIndicator);
-    chatBox.innerHTML += `<div class="error-msg">RayBot: Estou offline! Verifique se o Ollama está rodando.</div>`;
+    typingIndicator.remove();
+    chatBox.innerHTML += `<div style="color:red; margin:5px 0;">⚠️ Erro: ${error.message || "Servidor indisponível"}</div>`;
+    console.error("Erro no chatbot:", error);
+  } finally {
+    chatBox.scrollTop = chatBox.scrollHeight;
   }
 }
-const response = await fetch('http://35.237.109.197:11434/api/generate', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  },
-  body: JSON.stringify({
-    model: "phi3",
-    prompt: input,
-    stream: false
-  }),
-  mode: 'cors' // Adicione esta linha
-});
