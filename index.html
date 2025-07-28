@@ -72,22 +72,72 @@
       </li>
     </ul>
 
-    <!-- Chatbot -->
-    <div id="chat-toggle" onclick="toggleChat()" class="chat-toggle">
-      <ion-icon name="chatbubble-ellipses"></ion-icon>
-    </div>
+   div id="chat-container">
+    <div id="chat-messages"></div>
+    <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+    <button onclick="sendMessage()">Enviar</button>
+  </div>
+  
+  <script>
+    const API_URL = " https://rastatrindaderayan--ollama-chat-integration-api.modal.run/query";
 
-    <div id="chat-container" class="chat-container">
-      <div id="chat-header" onclick="toggleChat()" class="chat-header">
-        <h3>Chatbot Rayan</h3>
-        <ion-icon name="close"></ion-icon>
-      </div>
-      <div id="chat-messages" class="chat-messages"></div>
-      <div class="chat-input">
-        <input type="text" id="user-input" placeholder="Digite sua mensagem...">
-        <button onclick="sendMessage()">Enviar</button>
-      </div>
-    </div>
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const message = input.value.trim();
+
+      if (!message) return;
+
+      // Adiciona mensagem do usuário ao chat
+      addMessage("Você: " + message, "user");
+      input.value = '';
+
+      try {
+        // Chama a API Modal
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: message })
+        });
+
+        const data = await response.json();
+
+        if (data.response) {
+          addMessage("Ollama: " + data.response, "bot");
+        } else {
+          addMessage("Erro: " + (data.error || "Resposta vazia"), "error");
+        }
+      } catch (error) {
+        addMessage("Erro ao conectar com a API: " + error.message, "error");
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chat = document.getElementById('chat-messages');
+      const messageElement = document.createElement('div');
+
+      messageElement.textContent = text;
+      messageElement.style.margin = "5px 0";
+      messageElement.style.padding = "8px";
+      messageElement.style.borderRadius = "5px";
+      messageElement.style.backgroundColor =
+        sender === "user" ? "#e3f2fd" :
+          sender === "error" ? "#ffebee" :
+            "#f5f5f5";
+
+      chat.appendChild(messageElement);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    // Enviar com Enter
+    document.getElementById('user-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+
 
     <div class="video-container">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/7wzRooVxzP0?si=814CJ7TmmLKzf8WZ"

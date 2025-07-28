@@ -163,3 +163,10 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleMode();
   }
 });
+fetch("https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ message: "Sua mensagem aqui" })
+})
