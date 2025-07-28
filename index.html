@@ -72,106 +72,67 @@
       </li>
     </ul>
 
-   <div id="chat-container">
-    <div id="chat-messages"></div>
-    <input type="text" id="user-input" placeholder="Digite sua mensagem...">
-    <button onclick="sendMessage()">Enviar</button>
+    <div id="chat-messages"
+      style="height: 300px; border: 1px solid #ccc; overflow-y: scroll; padding: 10px; margin-bottom: 10px;"></div>
+    <div style="display: flex; gap: 10px;">
+      <input type="text" id="user-input" placeholder="Digite sua mensagem..." style="flex-grow: 1; padding: 8px;">
+      <button onclick="sendMessage()" style="padding: 8px 15px;">Enviar</button>
+    </div>
   </div>
+  
   <script>
     async function sendMessage() {
       const API_URL = "https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat";
-      const userInput = document.getElementById('user-input').value;
-      const chatBox = document.getElementById('chat-box');
+      const userInput = document.getElementById('user-input');
+      const chatBox = document.getElementById('chat-messages'); // Corrigido para 'chat-messages'
+
+      if (!userInput.value.trim()) return;
 
       // Adiciona mensagem do usuário
-      chatBox.innerHTML += `<div class="user-message">${userInput}</div>`;
+      chatBox.innerHTML += `<div style="text-align: right; margin: 5px 0; padding: 8px; background: #e3f2fd; border-radius: 5px;">${userInput.value}</div>`;
+
+      // Cria elemento de loading
+      const loadingElement = document.createElement('div');
+      loadingElement.textContent = "Ollama está digitando...";
+      loadingElement.style.color = "#666";
+      loadingElement.style.fontStyle = "italic";
+      chatBox.appendChild(loadingElement);
+
+      // Rolagem automática
+      chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
-        // Mostra status de carregamento
-        chatBox.innerHTML += `<div class="loading">Ollama está digitando...</div>`;
-
         const response = await fetch(API_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userInput })
+          body: JSON.stringify({ message: userInput.value })
         });
 
-        // Remove o indicador de carregamento
-        document.querySelector('.loading').remove();
+        // Remove loading
+        chatBox.removeChild(loadingElement);
 
         const data = await response.json();
+        userInput.value = ''; // Limpa o input
 
         if (data.response) {
-          chatBox.innerHTML += `<div class="bot-message">${data.response}</div>`;
+          chatBox.innerHTML += `<div style="margin: 5px 0; padding: 8px; background: #f5f5f5; border-radius: 5px;">${data.response}</div>`;
         } else {
-          chatBox.innerHTML += `<div class="error-message">Erro: ${data.error || "Resposta vazia"}</div>`;
+          chatBox.innerHTML += `<div style="color: #d32f2f;">Erro: ${data.error || "Resposta vazia"}</div>`;
         }
       } catch (error) {
-        document.querySelector('.loading')?.remove();
-        chatBox.innerHTML += `<div class="error-message">Falha na conexão: ${error.message}</div>`;
+        chatBox.removeChild(loadingElement);
+        chatBox.innerHTML += `<div style="color: #d32f2f;">Falha na conexão: ${error.message}</div>`;
       }
-    }
-  </script>
-  <script>
-    const API_URL = " https://rastatrindaderayan--ollama-chat-integration-api.modal.run/query";
 
-    async function sendMessage() {
-      const input = document.getElementById('user-input');
-      const message = input.value.trim();
-
-      if (!message) return;
-
-      // Adiciona mensagem do usuário ao chat
-      addMessage("Você: " + message, "user");
-      input.value = '';
-
-      try {
-        // Chama a API Modal
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ prompt: message })
-        });
-
-        const data = await response.json();
-
-        if (data.response) {
-          addMessage("Ollama: " + data.response, "bot");
-        } else {
-          addMessage("Erro: " + (data.error || "Resposta vazia"), "error");
-        }
-      } catch (error) {
-        addMessage("Erro ao conectar com a API: " + error.message, "error");
-      }
+      // Rolagem automática após resposta
+      chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function addMessage(text, sender) {
-      const chat = document.getElementById('chat-messages');
-      const messageElement = document.createElement('div');
-
-      messageElement.textContent = text;
-      messageElement.style.margin = "5px 0";
-      messageElement.style.padding = "8px";
-      messageElement.style.borderRadius = "5px";
-      messageElement.style.backgroundColor =
-        sender === "user" ? "#e3f2fd" :
-          sender === "error" ? "#ffebee" :
-            "#f5f5f5";
-
-      chat.appendChild(messageElement);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    // Enviar com Enter
+    // Permitir enviar com Enter
     document.getElementById('user-input').addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
-        sendMessage();
-      }
+      if (e.key === 'Enter') sendMessage();
     });
   </script>
-
 
     <div class="video-container">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/7wzRooVxzP0?si=814CJ7TmmLKzf8WZ"
