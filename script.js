@@ -1,13 +1,4 @@
-// ========== CONFIGURAÇÕES ========== //
-const OLLAMA_CONFIG = {
-  endpoint: "http://34.67.216.224:11434/api/generate", // Substitua pelo seu endpoint
-  model: "phi3", // Altere para o modelo desejado
-  personality: `Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
-- Linguagem informal e descontraída
-- Respostas curtas (máximo 3 linhas)
-- Foco em portfólio, TI e projetos pessoais
-- Se não souber algo, diga "Vou perguntar ao Rayan!"`
-};
+
 
 // ========== ELEMENTOS DO DOM ========== //
 const elements = {
@@ -206,3 +197,63 @@ async function sendMessage() {
         }
     }
 }
+// ========== CONFIGURAÇÕES ATUALIZADAS ========== //
+const OLLAMA_CONFIG = {
+  endpoint: "https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat", // Endpoint HTTPS
+  model: "phi3",
+  personality: `Você é o "RayBot", assistente do site trindaderayan.com.br. Siga estas regras:
+- Linguagem informal e descontraída
+- Respostas curtas (máximo 3 linhas)
+- Foco em portfólio, TI e projetos pessoais
+- Se não souber algo, diga "Vou perguntar ao Rayan!"`
+};
+
+// ========== CHATBOT ATUALIZADO ========== //
+async function sendMessage() {
+  const message = elements.userInput.value.trim();
+  if (!message) return;
+
+  // Exibe mensagem do usuário
+  appendMessage('Você', message, 'user-message');
+  elements.userInput.value = '';
+
+  // Exibe "digitando..."
+  const typingIndicator = appendMessage('RayBot', 'Digitando...', 'typing-message');
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
+    const response = await fetch(OLLAMA_CONFIG.endpoint, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        message: message,
+        model: OLLAMA_CONFIG.model,
+        personality: OLLAMA_CONFIG.personality
+      }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+    
+    const data = await response.json();
+    typingIndicator.remove();
+    appendMessage('RayBot', data.response || "Desculpe, não entendi. Poderia reformular?", 'bot-message');
+  } catch (error) {
+    typingIndicator.remove();
+    const errorMsg = error.name === 'AbortError' 
+      ? "A resposta demorou muito. Tente novamente." 
+      : `Erro: ${error.message || "Servidor indisponível"}`;
+    
+    appendMessage('Sistema', `⚠️ ${errorMsg}`, 'error-message');
+    console.error("Erro no chatbot:", error);
+  }
+}
+
+// Mantenha o restante do seu código original (toggleMode, appendMessage, etc.)
