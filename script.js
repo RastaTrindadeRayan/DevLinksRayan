@@ -170,3 +170,39 @@ fetch("https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat", 
   },
   body: JSON.stringify({ message: "Sua mensagem aqui" })
 })
+async function sendMessage() {
+    const API_URL = "https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat";
+    const TIMEOUT = 15000; // 15 segundos
+    
+    try {
+        // Configura timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), TIMEOUT);
+
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: { 
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ message: userInput }),
+            signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+        
+        const data = await response.json();
+        // Processa a resposta aqui...
+        
+    } catch (error) {
+        console.error("Erro detalhado:", error);
+        
+        if (error.name === 'AbortError') {
+            alert("A API demorou muito para responder. Tente novamente.");
+        } else {
+            alert("Erro de conexão. Verifique o console para detalhes.");
+        }
+    }
+}
