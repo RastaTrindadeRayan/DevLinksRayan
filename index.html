@@ -72,12 +72,46 @@
       </li>
     </ul>
 
-   div id="chat-container">
+   <div id="chat-container">
     <div id="chat-messages"></div>
     <input type="text" id="user-input" placeholder="Digite sua mensagem...">
     <button onclick="sendMessage()">Enviar</button>
   </div>
-  
+  <script>
+    async function sendMessage() {
+      const API_URL = "https://rastatrindaderayan--ollama-chat-integration-api.modal.run/chat";
+      const userInput = document.getElementById('user-input').value;
+      const chatBox = document.getElementById('chat-box');
+
+      // Adiciona mensagem do usuário
+      chatBox.innerHTML += `<div class="user-message">${userInput}</div>`;
+
+      try {
+        // Mostra status de carregamento
+        chatBox.innerHTML += `<div class="loading">Ollama está digitando...</div>`;
+
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userInput })
+        });
+
+        // Remove o indicador de carregamento
+        document.querySelector('.loading').remove();
+
+        const data = await response.json();
+
+        if (data.response) {
+          chatBox.innerHTML += `<div class="bot-message">${data.response}</div>`;
+        } else {
+          chatBox.innerHTML += `<div class="error-message">Erro: ${data.error || "Resposta vazia"}</div>`;
+        }
+      } catch (error) {
+        document.querySelector('.loading')?.remove();
+        chatBox.innerHTML += `<div class="error-message">Falha na conexão: ${error.message}</div>`;
+      }
+    }
+  </script>
   <script>
     const API_URL = " https://rastatrindaderayan--ollama-chat-integration-api.modal.run/query";
 

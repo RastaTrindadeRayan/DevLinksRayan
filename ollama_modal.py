@@ -32,11 +32,11 @@ volume = modal.Volume.from_name("ollama-chat-storage", create_if_missing=True)
 web_app = FastAPI()
 
 # Configuração de CORS para integração com o frontend
+# Adicione isso logo após criar o web_app = FastAPI()
 web_app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://trindaderayan.com.br", "https://www.trindaderayan.com.br"],
-    allow_credentials=True,
-    allow_methods=["POST", "GET", "OPTIONS"],
+    allow_origins=["*"],  # Temporariamente permita tudo para testes
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
