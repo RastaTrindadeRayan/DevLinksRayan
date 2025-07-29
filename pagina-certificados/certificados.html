@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Certificados - Rayan Marcelo</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="cabecalho">
+        <div class="container">
+            <div class="cabecalho-conteudo">
+                <h1 class="titulo-principal">
+                    <i class="fas fa-certificate"></i>
+                    Meus Certificados
+                </h1>
+                <p class="subtitulo">Portfólio de certificações e conquistas acadêmicas</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filtros -->
+    <section class="secao-filtros">
+        <div class="container">
+            <div class="filtros">
+                <button class="botao-filtro ativo" data-categoria="todos">
+                    <i class="fas fa-th"></i>
+                    Todos
+                </button>
+                <button class="botao-filtro" data-categoria="rocketseat">
+                    <i class="fas fa-rocket"></i>
+                    Rocketseat
+                </button>
+                <button class="botao-filtro" data-categoria="python">
+                    <i class="fab fa-python"></i>
+                    Python
+                </button>
+                <button class="botao-filtro" data-categoria="linguagem-portuguesa">
+                    <i class="fas fa-language"></i>
+                    Língua Portuguesa
+                </button>
+                <button class="botao-filtro" data-categoria="matematica">
+                    <i class="fas fa-calculator"></i>
+                    Matemática
+                </button>
+                <button class="botao-filtro" data-categoria="outros">
+                    <i class="fas fa-ellipsis-h"></i>
+                    Outros
+                </button>
+            </div>
+            <div class="contador-certificados">
+                <span id="contador">15 certificados encontrados</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grid de Certificados -->
+    <main class="secao-principal">
+        <div class="container">
+            <div class="grid-certificados" id="gridCertificados">
+                <!-- Certificado Rocketseat -->
+                <div class="cartao-certificado" data-categoria="rocketseat">
+                    <div class="cartao-header">
+                        <div class="icone-categoria rocketseat">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="badge-categoria">Rocketseat</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Discover - Fundamentos Web</h3>
+                        <p class="descricao-certificado">
+                            Especialização em fundamentos da programação web, HTML, CSS, Javascript, Git e Github
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>22/02/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Rocketseat/Certificado_Rocketseat_Discover_22_02_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Rocketseat/Certificado_Rocketseat_Discover_22_02_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Certificado Python -->
+                <div class="cartao-certificado" data-categoria="python">
+                    <div class="cartao-header">
+                        <div class="icone-categoria python">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="badge-categoria">Python</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Interface Gráfica com Python</h3>
+                        <p class="descricao-certificado">
+                            Curso sobre criação de projetos com interface gráfica utilizando a linguagem Python
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>01/03/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>10h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Python/Certificado_Python_Interface_Grafica_01_03_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Python/Certificado_Python_Interface_Grafica_01_03_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Certificados Genéricos -->
+                <!-- Certificados Genéricos -->
+                <div class="cartao-certificado" data-categoria="linguagem-portuguesa">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Linguagem Portuguesa</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Classes Gramaticais II</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Língua Portuguesa
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>11/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Classes_Gramaticais_II_11_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Classes_Gramaticais_II_11_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="linguagem-portuguesa">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Linguagem Portuguesa</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Acentuação e Pontuação</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Língua Portuguesa
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>11/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Acentuacao_e_Pontuacao_11_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Acentuacao_e_Pontuacao_11_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="linguagem-portuguesa">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Linguagem Portuguesa</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Frase, Oração, Período e Termos da Oração</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Língua Portuguesa
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>11/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Frase_Oracao_Periodo_Termos_da_Oracao_11_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Frase_Oracao_Periodo_Termos_da_Oracao_11_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="linguagem-portuguesa">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Linguagem Portuguesa</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Relação de Coordenação e Subordinação entre Orações</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Língua Portuguesa
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>11/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Relacao_de_Coordenacao_e_Subordinacao_11_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Relacao_de_Coordenacao_e_Subordinacao_11_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="linguagem-portuguesa">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Linguagem Portuguesa</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Estudo da Sintaxe</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Língua Portuguesa
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>11/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Estudo_da_Sintaxe_11_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Linguagem_Portuguesa_Estudo_da_Sintaxe_11_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Álgebra I</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Algebra_I_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Algebra_I_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Álgebra II</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Algebra_II_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Algebra_II_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Funções</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Funcoes_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Funcoes_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Combinatória</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Combinatoria_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Combinatoria_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Geometria</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Geometria_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Geometria_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cartao-certificado" data-categoria="matematica">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="badge-categoria">Matemática</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Trigonometria</h3>
+                        <p class="descricao-certificado">
+                            Módulo de Competências Básicas para o Ensino Superior - Matemática
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>12/06/2025</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>12h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Genericos/Certificado_Matematica_Trigonometria_12_06_2025.pdf')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Genericos/Certificado_Matematica_Trigonometria_12_06_2025.pdf')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Certificado Hardware OnByte -->
+                <div class="cartao-certificado" data-categoria="outros">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="badge-categoria">Hardware</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Hardware</h3>
+                        <p class="descricao-certificado">
+                            Curso de Hardware da OnByte Formação Profissional.
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>Março/2017</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>20h</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Outros/Certificado_Hardware_ONBYTE_03_2017.png')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Outros/Certificado_Hardware_ONBYTE_03_2017.png')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Certificado Informática Básica ASD -->
+                <div class="cartao-certificado" data-categoria="outros">
+                    <div class="cartao-header">
+                        <div class="icone-categoria genericos">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="badge-categoria">Informática Básica</div>
+                    </div>
+                    <div class="cartao-conteudo">
+                        <h3 class="titulo-certificado">Informática Básica</h3>
+                        <p class="descricao-certificado">
+                            Curso de informática básica na ASD Informática, incluindo Digitação, Windows 7, Word 2007, Excel 2007, PowerPoint 2007 e Internet.
+                        </p>
+                        <div class="detalhes-certificado">
+                            <div class="detalhe">
+                                <i class="fas fa-calendar"></i>
+                                <span>30/08/2012</span>
+                            </div>
+                            <div class="detalhe">
+                                <i class="fas fa-clock"></i>
+                                <span>-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cartao-acoes">
+                        <button class="botao-visualizar" onclick="abrirCertificado('certificados/Outros/Certificado_Informatica_Basica_ASD_08_2012.png')">
+                            <i class="fas fa-eye"></i>
+                            Visualizar
+                        </button>
+                        <button class="botao-download" onclick="baixarCertificado('certificados/Outros/Certificado_Informatica_Basica_ASD_08_2012.png')">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para visualização de certificados -->
+    <div id="modalCertificado" class="modal">
+        <div class="modal-conteudo">
+            <div class="modal-header">
+                <h3>Visualizar Certificado</h3>
+                <button class="botao-fechar" onclick="fecharModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-corpo">
+                <iframe id="frameCertificado" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="rodape">
+        <div class="container">
+            <p>&copy; 2025 Rayan Marcelo de Oliveira Trindade. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
