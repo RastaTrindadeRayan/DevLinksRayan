@@ -1,4 +1,10 @@
 const { Groq } = require("groq-sdk");
+// Adicione no início do arquivo groq-chatbot.js
+console.log("Debug - Ambiente:", {
+  chavePresente: !!process.env.GROQ_API_KEY,
+  chaveIniciaCom: process.env.GROQ_API_KEY?.slice(0, 4) + '...',
+  netlifyDev: process.env.NETLIFY_DEV
+});
 
 exports.handler = async (event, context) => {
   // Configuração de CORS
@@ -9,7 +15,7 @@ exports.handler = async (event, context) => {
     'Content-Type': 'application/json'
   };
 
-  // Resposta para OPTIONS (pré-voo CORS)
+  // Resposta para OPTIONS (CORS pré-flight)
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
@@ -19,12 +25,13 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // Verifique a chave API
+    // Verificação da chave API
     if (!process.env.GROQ_API_KEY) {
-      throw new Error('Variável GROQ_API_KEY não configurada');
+      console.error('Erro: GROQ_API_KEY não definida');
+      throw new Error('Configuração do servidor incompleta');
     }
 
-    // Verifique o método HTTP
+    // Verifica o método HTTP
     if (event.httpMethod !== 'POST') {
       return {
         statusCode: 405,
@@ -35,7 +42,10 @@ exports.handler = async (event, context) => {
 
     // Parse do corpo da requisição
     const { messages } = JSON.parse(event.body);
-    
+    if (!messages) {
+      throw new Error('Formato inválido: messages é obrigatório');
+    }
+
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY
     });
@@ -50,17 +60,17 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        reply: completion.choices[0]?.message?.content || "Sem resposta"
+        reply: completion.choices[0]?.message?.content || "Não foi possível gerar resposta"
       })
     };
 
   } catch (error) {
-    console.error('Erro na função:', error);
+    console.error('Erro detalhado:', error);
     return {
       statusCode: 500,
       headers,
       body: JSON.stringify({
-        error: 'Erro no servidor',
+        error: 'Erro no processamento',
         details: error.message
       })
     };

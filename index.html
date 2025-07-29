@@ -258,59 +258,45 @@
 
     // Função principal para enviar mensagem
     async function sendMessage() {
-      const message = userInput.value.trim();
-      if (!message) return;
+        const userInput = document.getElementById('user-input').value.trim();
+        if (!userInput) return;
 
-      // Adiciona mensagem do usuário
-      addMessage(message, 'user');
-      messageHistory.push({ role: 'user', content: message });
-      userInput.value = '';
+        // Adiciona mensagem do usuário
+        addMessage(userInput, 'user');
+        document.getElementById('user-input').value = '';
 
-      // Mostra "digitando..."
-      loadingMessageId = addMessage("Digitando...", 'bot', 'typing-' + Date.now());
+        // Mostra indicador de carregamento
+        const loadingId = 'loading-' + Date.now();
+        addMessage("Processando sua pergunta...", 'bot', loadingId);
 
-      try {
-        const response = await fetch('https://trindaderayan.com.br/.netlify/functions/groq-chatbot', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            messages: messageHistory
-          })
-        });
+        try {
+          const response = await fetch('https://trindaderayan.com.br/.netlify/functions/groq-chatbot', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              messages: [{ role: 'user', content: userInput }]
+            })
+          });
 
-        removeMessage(loadingMessageId);
+          // Remove indicador de carregamento
+          removeMessage(loadingId);
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || `Erro: ${response.status}`);
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Erro no servidor: ${response.status}`);
+          }
+
+          const data = await response.json();
+          addMessage(data.reply, 'bot');
+
+        } catch (error) {
+          console.error('Erro completo:', error);
+          removeMessage(loadingId);
+          addMessage(`Desculpe, ocorreu um erro: ${error.message || "Por favor, tente novamente mais tarde"}`, 'bot');
         }
-
-        const data = await response.json();
-        addMessage(data.reply, 'bot');
-        messageHistory.push({ role: 'assistant', content: data.reply });
-
-      } catch (error) {
-        console.error('Erro:', error);
-        removeMessage(loadingMessageId);
-        addMessage(`Erro: ${error.message || "Tente novamente"}`, 'bot');
       }
-    }
-
-    // Event listeners
-    sendButton.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') sendMessage();
-    });
-
-    // Mensagem inicial
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        addMessage("Olá! Sou seu assistente virtual. Como posso ajudar?", 'bot');
-      }, 1000);
-      userInput.focus();
-    });
   </script>
  
 
