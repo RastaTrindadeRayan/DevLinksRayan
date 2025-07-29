@@ -27,54 +27,7 @@ function toggleMode() {
   }
 }
 
-// ========== CHATBOT ========== //
-function toggleChat() {
-  elements.chatContainer.style.display = elements.chatContainer.style.display === 'none' ? 'block' : 'none';
-  elements.chatToggle.style.display = elements.chatContainer.style.display === 'block' ? 'none' : 'flex';
-}
 
-async function sendMessage() {
-  const message = elements.userInput.value.trim();
-  if (!message) return;
-
-  // Exibe mensagem do usuário
-  appendMessage('Você', message, 'user-message');
-  elements.userInput.value = '';
-
-  // Exibe "digitando..."
-  const typingIndicator = appendMessage('RayBot', 'Digitando...', 'typing-message');
-
-  try {
-    const response = await fetch(OLLAMA_CONFIG.endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: OLLAMA_CONFIG.model,
-        prompt: `${OLLAMA_CONFIG.personality}\n\nUsuário: ${message}\nRayBot:`,
-        stream: false
-      })
-    });
-
-    if (!response.ok) throw new Error(`Erro: ${response.status}`);
-    
-    const data = await response.json();
-    typingIndicator.remove();
-    appendMessage('RayBot', data.response, 'bot-message');
-  } catch (error) {
-    typingIndicator.remove();
-    appendMessage('Sistema', `⚠️ ${error.message || "Servidor offline"}`, 'error-message');
-    console.error("Erro no chatbot:", error);
-  }
-}
-
-function appendMessage(sender, text, cssClass) {
-  const messageDiv = document.createElement('div');
-  messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  messageDiv.className = cssClass;
-  elements.chatMessages.appendChild(messageDiv);
-  elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
-  return messageDiv;
-}
 
 // ========== COOKIE CONSENT ========== //
 function setupCookieConsent() {
