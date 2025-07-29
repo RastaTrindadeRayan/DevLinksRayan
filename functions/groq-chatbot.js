@@ -7,7 +7,7 @@ exports.handler = async (event, context) => {
   }
 
   const { messages } = JSON.parse(event.body);
-  const groq = new Groq({ apiKey: "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" });
+  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
   try {
     const response = await groq.chat.completions.create({
