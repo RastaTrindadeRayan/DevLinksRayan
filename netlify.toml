@@ -1,0 +1,3 @@
+[build]
+  functions = "functions"  # Pasta onde estão suas funções
+  publish = "public"       # Pasta do seu site estático

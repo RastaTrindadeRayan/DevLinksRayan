@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="Light">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,500;1,14..32,500&display=swap"
+    rel="stylesheet">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Rayan Trindade - Portfólio Pessoal</title>
+  <meta name="description"
+    content="Portfólio pessoal de Rayan Trindade, estudante de Ciência da Computação. Conheça meus projetos, biografia e entre em contato.">
+  <meta name="keywords"
+    content="Rayan Trindade, portfólio, ciência da computação, desenvolvedor, programação, projetos, biografia, jogos, download, TI, tecnologia">
+
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./stylecookie.css">
+  <style>
+    /* Estilos específicos para o chat */
+    .chat-container {
+      max-width: 800px;
+      margin: 30px auto;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid #2d4d2d;
+    }
+
+    .chat-header {
+      background: linear-gradient(to right, #1a2a1a, #2d4d2d);
+      color: #ffd700;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
+    .chat-messages {
+      height: 400px;
+      overflow-y: auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 12px 15px;
+      border-radius: 8px;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+
+    .user-message {
+      background: #e3f2fd;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+
+    .ai-message {
+      background: #2d4d2d;
+      color: #f0e6d2;
+      margin-right: auto;
+      border-bottom-left-radius: 0;
+    }
+
+    .chat-input-container {
+      display: flex;
+      padding: 15px;
+      background: white;
+      border-top: 1px solid #eee;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    #send-button {
+      background: #1a2a1a;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      margin-left: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #send-button:hover {
+      background: #2d4d2d;
+    }
+
+    .typing-indicator {
+      display: none;
+      padding: 10px;
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      background: #f5f5f5;
+    }
+
+    @media (max-width: 768px) {
+      .chat-messages {
+        height: 300px;
+        padding: 10px;
+      }
+
+      .message {
+        max-width: 90%;
+        padding: 10px 12px;
+      }
+
+      .chat-container {
+        margin: 20px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div id="profile">
+      <img src="./assets/euterno.jpeg"
+        alt="Rayan Trindade está com um leve sorriso, com cabelo castanho e barba. Ele está usando um terno preto e uma camisa branca, com um fundo de parede bege."
+        class="zoom-profile">
+
+      <h1>Rayan Trindade</h1>
+
+      <div id="switch" onclick="toggleMode()">
+        <button></button>
+        <span></span>
+      </div>
+
+      <p id="intro">
+        Olá mundo, sou Rayan Trindade e tenho 23 anos. Atualmente trabalho na área de entrega desde 2021.<br>
+        Aos 10 anos concluí meu primeiro curso de informática e hoje sou estudante de Ciências da Computação.<br>
+        Para mais informações sobre minha trajetória e projetos, acesse os links abaixo:
+      </p>
+    </div>
+
+    <ul>
+      <li>
+        <a href="pagina-certificados/certificados.html" target="_blank"><em>Ver certificados</em></a>
+      </li>
+      <li>
+        <a href="indexbio.html" target="_blank"><em>Biografia</em></a>
+      </li>
+      <li>
+        <a href="downloads.html" target="_blank">Baixar jogos</a>
+      </li>
+      <li>
+        <a href="https://www.youtube.com/@RayanProd420" target="_blank">
+          Meu canal no YouTube
+          <ion-icon name="logo-youtube"></ion-icon>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/rayan-trindade-029581351/" target="_blank">
+          Meu LinkedIn
+          <ion-icon name="logo-linkedin"></ion-icon>
+        </a>
+      </li>
+      <li>
+        <a href="https://api.whatsapp.com/send/?phone=5511991902066&text&type=phone_number&app_absent=0"
+          target="_blank">
+          Chamar no WhatsApp
+          <ion-icon name="logo-whatsapp"></ion-icon>
+        </a>
+      </li>
+    </ul>
+
+    <div id="chatbot">
+      <div id="chat-messages"></div>
+      <input type="text" id="user-input" placeholder="Pergunte algo..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+    
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById("user-input");
+        const userMessage = input.value.trim();
+
+        if (!userMessage) return;
+
+        // Mostra a mensagem do usuário
+        addMessage("Você: " + userMessage, "user");
+
+        // Chama o backend da Netlify Function
+        const response = await fetch("/.netlify/functions/groq-chatbot", {
+          method: "POST",
+          body: JSON.stringify({
+            messages: [{ role: "user", content: userMessage }],
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+        addMessage("Chatbot: " + data.reply, "bot");
+
+        input.value = ""; // Limpa o input
+      }
+
+      function addMessage(text, sender) {
+        const chatDiv = document.getElementById("chat-messages");
+        const messageDiv = document.createElement("div");
+        messageDiv.textContent = text;
+        messageDiv.className = sender + "-message";
+        chatDiv.appendChild(messageDiv);
+      }
+    </script>
+    
+    <style>
+      #chatbot {
+        max-width: 500px;
+        margin: 20px auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+      }
+    
+      #chat-messages {
+        height: 300px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+        padding: 5px;
+        border-bottom: 1px solid #eee;
+      }
+    
+      .user-message {
+        color: #0066cc;
+        margin: 5px 0;
+      }
+    
+      .bot-message {
+        color: #009933;
+        margin: 5px 0;
+      }
+    
+      #user-input {
+        width: 70%;
+        padding: 8px;
+        margin-right: 5px;
+      }
+    
+      button {
+        padding: 8px 15px;
+        background: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+
+    <div class="video-container">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/7wzRooVxzP0?si=814CJ7TmmLKzf8WZ"
+        title="Player de vídeo do YouTube sobre Rayan Trindade" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <footer>
+      &copy;
+      <script>document.write(new Date().getFullYear())</script> Rayan Trindade. Site criado por Rayan Trindade.
+      <br>
+      <a href="politica-de-privacidade.html" style="color: var(--text-color); text-decoration: underline;">Política de
+        Privacidade</a> |
+      <a href="termos-de-uso.html" style="color: var(--text-color); text-decoration: underline;">Termos de Uso</a>
+    </footer>
+  </div>
+
+  <!-- Cookie Consent -->
+  <div id="cookie-consent-container" class="cookie-consent">
+    <div class="cookie-content">
+      <p>Nós utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa <a
+          href="./politica-de-privacidade.html" target="_blank" id="cookie-policy-link">Política de Privacidade</a> e
+        uso de cookies.</p>
+      <div class="cookie-buttons">
+        <button id="accept-all-cookies" class="cookie-btn accept-btn">Aceitar todos</button>
+        <button id="accept-necessary-cookies" class="cookie-btn necessary-btn">Aceitar apenas necessários</button>
+        <button id="open-cookie-settings" class="cookie-btn settings-btn">Configurações</button>
+      </div>
+    </div>
+
+    <div id="cookie-settings-modal" class="cookie-modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Preferências de Cookies</h3>
+        <div class="cookie-option">
+          <input type="checkbox" id="necessary-cookies" checked disabled>
+          <label for="necessary-cookies">Cookies Necessários</label>
+          <p>Essenciais para o funcionamento do site. Sempre ativos.</p>
+        </div>
+        <div class="cookie-option">
+          <input type="checkbox" id="analytics-cookies">
+          <label for="analytics-cookies">Cookies de Análise</label>
+          <p>Nos ajudam a entender como você usa nosso site.</p>
+        </div>
+        <button id="save-cookie-settings" class="cookie-btn save-btn">Salvar Preferências</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>
