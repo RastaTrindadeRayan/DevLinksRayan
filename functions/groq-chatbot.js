@@ -3,13 +3,13 @@ const { Groq } = require("groq-sdk");
 exports.handler = async (event, context) => {
   // Configuração de CORS
   const headers = {
-    'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'https://trindaderayan.com.br',
+    'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type'
+    'Content-Type': 'application/json'
   };
 
-  // Resposta para requisições OPTIONS (pré-voo CORS)
+  // Resposta para OPTIONS (pré-voo CORS)
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 204,
@@ -18,19 +18,19 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Verifica se o método é POST
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      headers,
-      body: JSON.stringify({ error: 'Método não permitido' })
-    };
-  }
-
   try {
-    // Verifica a chave API
+    // Verifique a chave API
     if (!process.env.GROQ_API_KEY) {
-      throw new Error('Chave API não configurada');
+      throw new Error('Variável GROQ_API_KEY não configurada');
+    }
+
+    // Verifique o método HTTP
+    if (event.httpMethod !== 'POST') {
+      return {
+        statusCode: 405,
+        headers,
+        body: JSON.stringify({ error: 'Método não permitido' })
+      };
     }
 
     // Parse do corpo da requisição
@@ -50,12 +50,12 @@ exports.handler = async (event, context) => {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        reply: completion.choices[0]?.message?.content || "Não foi possível gerar resposta"
+        reply: completion.choices[0]?.message?.content || "Sem resposta"
       })
     };
 
   } catch (error) {
-    console.error('Erro:', error);
+    console.error('Erro na função:', error);
     return {
       statusCode: 500,
       headers,
