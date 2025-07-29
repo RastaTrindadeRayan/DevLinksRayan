@@ -94,3 +94,5 @@ function setupCookieConsent() {
   });
 }
 
+// Pode ser usado para lógicas adicionais do site
+console.log("Script carregado!");
