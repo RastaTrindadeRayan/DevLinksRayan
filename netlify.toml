@@ -10,3 +10,4 @@
 
 [context.production]
   environment = { GROQ_API_KEY = "@groq_api_key" } # Variável de produção
+  functions = "functions"
