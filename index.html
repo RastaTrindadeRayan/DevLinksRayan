@@ -18,6 +18,84 @@
 
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./stylecookie.css">
+  <style>
+    /* Estilos específicos para o chat RASTRINDADs */
+    .chat-container {
+      margin: 20px auto;
+      max-width: 600px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .chat-header {
+      background: linear-gradient(to right, #1a2a1a, #2d4d2d);
+      color: #ffd700;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      padding: 15px;
+      background-color: var(--bg-color);
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 18px;
+      max-width: 80%;
+    }
+
+    .user-message {
+      background-color: var(--primary-color);
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+    }
+
+    .ai-message {
+      background-color: #2d4d2d;
+      color: #f0e6d2;
+      margin-right: auto;
+      border-bottom-left-radius: 5px;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 10px;
+      background-color: var(--bg-color);
+      border-top: 1px solid var(--border-color);
+    }
+
+    #chat-input-field {
+      flex-grow: 1;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+
+    #chat-send-btn {
+      background: linear-gradient(to right, #1a2a1a, #2d4d2d);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 0 20px;
+      cursor: pointer;
+    }
+
+    .typing-indicator {
+      display: none;
+      padding: 5px 15px;
+      font-style: italic;
+      color: var(--text-color-light);
+    }
+  </style>
 </head>
 
 <body>
@@ -71,376 +149,26 @@
         </a>
       </li>
     </ul>
-<!-- Botão de Acesso ao Chat -->
-<button id="raybot-toggle" class="raybot-toggle">
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-  </svg>
-</button>
 
-<!-- Container do Chatbot -->
-<div id="raybot-container" class="raybot-container">
-  <div class="raybot-header">
-    <div class="raybot-title">
-      <div class="raybot-avatar">
-        <img src="https://trindaderayan.com.br/assets/avatar.jpg" alt="RayBot">
+    <!-- Chat RASTRINDADs -->
+    <div class="chat-container">
+      <div class="chat-header">
+        🌿 RASTRINDADs - Chatbot de Sabedoria Rastafári
       </div>
-      <h3>RayBot Assistente</h3>
-    </div>
-    <button id="raybot-close" class="raybot-close">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </div>
-
-  <div id="raybot-messages" class="raybot-messages">
-    <div class="message bot">
-      <div class="message-content">
-        <strong>RayBot:</strong> Olá! Sou o assistente do Rayan. Como posso te ajudar hoje?
+      <div class="chat-messages" id="chat-messages">
+        <div class="message ai-message">
+          Salve, irmão! Que a paz de Jah esteja com você. Como posso iluminar sua jornada hoje?
+        </div>
       </div>
-      <div class="message-time">Agora</div>
+      <div class="typing-indicator" id="typing-indicator">
+        RASTRINDADs está digitando...
+      </div>
+      <div class="chat-input">
+        <input type="text" id="chat-input-field" placeholder="Digite sua mensagem..." autocomplete="off">
+        <button id="chat-send-btn">Enviar</button>
+      </div>
     </div>
-  </div>
 
-  <div class="raybot-input">
-    <input type="text" id="raybot-input" placeholder="Digite sua mensagem..." autocomplete="off">
-    <button id="raybot-send">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"></line>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-      </svg>
-    </button>
-  </div>
-</div>
-
-<style>
-  /* Estilos do Chatbot */
-  .raybot-toggle {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: #2563eb;
-    color: white;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-    transition: all 0.3s ease;
-  }
-
-  .raybot-toggle:hover {
-    transform: scale(1.1);
-  }
-
-  .raybot-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    height: 500px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-    transform: translateY(20px);
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-  }
-
-  .raybot-container.active {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .raybot-header {
-    background: #2563eb;
-    color: white;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-  }
-
-  .raybot-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .raybot-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-
-  .raybot-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .raybot-close {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    padding: 5px;
-  }
-
-  .raybot-messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background: #f8fafc;
-  }
-
-  .message {
-    margin-bottom: 12px;
-    max-width: 80%;
-    animation: fadeIn 0.3s ease;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .message-content {
-    padding: 10px 12px;
-    border-radius: 12px;
-    line-height: 1.4;
-    font-size: 14px;
-  }
-
-  .message.bot .message-content {
-    background: #e0e7ff;
-    color: #1e293b;
-    border-bottom-left-radius: 4px;
-  }
-
-  .message.user .message-content {
-    background: #2563eb;
-    color: white;
-    border-bottom-right-radius: 4px;
-    margin-left: auto;
-  }
-
-  .message-time {
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 4px;
-    text-align: right;
-  }
-
-  .typing-indicator {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #e0e7ff;
-    border-radius: 12px;
-    font-size: 14px;
-    color: #64748b;
-  }
-
-  .raybot-input {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #e2e8f0;
-    background: white;
-  }
-
-  #raybot-input {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    outline: none;
-    font-size: 14px;
-  }
-
-  #raybot-input:focus {
-    border-color: #2563eb;
-  }
-
-  #raybot-send {
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    margin-left: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Responsividade */
-  @media (max-width: 480px) {
-    .raybot-container {
-      width: 100%;
-      height: 100%;
-      bottom: 0;
-      right: 0;
-      border-radius: 0;
-    }
-
-    .raybot-toggle {
-      bottom: 15px;
-      right: 15px;
-    }
-  }
-</style>
-
-<script>
-  // Configurações
-  const RAYBOT_API = "https://api-madhrguqg-rastatrindaderayans-projects.vercel.app/api/chat";
-
-  // Elementos DOM
-  const raybotContainer = document.getElementById('raybot-container');
-  const raybotToggle = document.getElementById('raybot-toggle');
-  const raybotClose = document.getElementById('raybot-close');
-  const raybotMessages = document.getElementById('raybot-messages');
-  const raybotInput = document.getElementById('raybot-input');
-  const raybotSend = document.getElementById('raybot-send');
-
-  // Estado do chat
-  let isTyping = false;
-
-  // Event Listeners
-  raybotToggle.addEventListener('click', toggleChat);
-  raybotClose.addEventListener('click', toggleChat);
-  raybotSend.addEventListener('click', sendMessage);
-  raybotInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-  // Funções
-  function toggleChat() {
-    raybotContainer.classList.toggle('active');
-  }
-
-  function addMessage(sender, text, type) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${type}`;
-
-    const now = new Date();
-    const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    messageDiv.innerHTML = `
-        <div class="message-content">
-            <strong>${sender}:</strong> ${text}
-        </div>
-        <div class="message-time">${timeString}</div>
-    `;
-
-    raybotMessages.appendChild(messageDiv);
-    raybotMessages.scrollTop = raybotMessages.scrollHeight;
-  }
-
-  function showTyping() {
-    if (isTyping) return;
-
-    isTyping = true;
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'message bot';
-    typingDiv.id = 'typing-indicator';
-    typingDiv.innerHTML = `
-        <div class="message-content typing-indicator">
-            RayBot está digitando...
-        </div>
-    `;
-
-    raybotMessages.appendChild(typingDiv);
-    raybotMessages.scrollTop = raybotMessages.scrollHeight;
-  }
-
-  function hideTyping() {
-    const typingIndicator = document.getElementById('typing-indicator');
-    if (typingIndicator) {
-      typingIndicator.remove();
-    }
-    isTyping = false;
-  }
-
-  async function sendMessage() {
-    const message = raybotInput.value.trim();
-    if (!message || isTyping) return;
-
-    // Adiciona mensagem do usuário
-    addMessage('Você', message, 'user');
-    raybotInput.value = '';
-
-    // Mostra "digitando..."
-    showTyping();
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
-
-      const response = await fetch(RAYBOT_API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({ message }),
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
-      }
-
-      const data = await response.json();
-      hideTyping();
-      addMessage('RayBot', data.response || data.message, 'bot');
-
-    } catch (error) {
-      hideTyping();
-
-      let errorMsg = "Erro de conexão";
-      if (error.name === 'AbortError') {
-        errorMsg = "O servidor demorou muito para responder";
-      } else if (error.message.includes('Failed to fetch')) {
-        errorMsg = "Não foi possível conectar ao servidor";
-      }
-
-      addMessage('Sistema', `⚠️ ${errorMsg}`, 'error');
-      console.error("Detalhes do erro:", error);
-    }
-  }
-
-  // Inicialização
-  toggleChat(); // Abre automaticamente para demonstração
-</script>
     <div class="video-container">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/7wzRooVxzP0?si=814CJ7TmmLKzf8WZ"
         title="Player de vídeo do YouTube sobre Rayan Trindade" frameborder="0"
@@ -494,6 +222,61 @@
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src="script.js"></script>
+
+  <!-- Script do Chat RASTRINDADs -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const chatMessages = document.getElementById('chat-messages');
+      const chatInput = document.getElementById('chat-input-field');
+      const sendBtn = document.getElementById('chat-send-btn');
+      const typingIndicator = document.getElementById('typing-indicator');
+
+      // Função para adicionar mensagens no chat
+      function addMessage(text, isAI = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = isAI ? 'message ai-message' : 'message user-message';
+        messageDiv.innerHTML = isAI ? `<strong>RASTRINDADs:</strong> ${text}` : `<strong>Você:</strong> ${text}`;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      // Função para enviar mensagem para a API
+      async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        addMessage(message);
+        chatInput.value = '';
+
+        // Mostra indicador de digitação
+        typingIndicator.style.display = 'block';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+          const response = await fetch("https://rayan-ia-backend.vercel.app/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: message })
+          });
+
+          const data = await response.json();
+          addMessage(data.response, true);
+
+        } catch (error) {
+          addMessage("Não foi possível conectar à sabedoria de Jah. Tente novamente mais tarde.", true);
+          console.error("Erro na API:", error);
+        } finally {
+          typingIndicator.style.display = 'none';
+        }
+      }
+
+      // Event listeners
+      sendBtn.addEventListener('click', sendMessage);
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+      });
+    });
+  </script>
 </body>
 
 </html>
