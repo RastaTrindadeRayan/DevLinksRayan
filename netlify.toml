@@ -1,9 +1,12 @@
 [build]
-  functions = "functions"
-  publish = "."
+  functions = "functions"  # Pasta das funções serverless
+  publish = "."           # Pasta dos arquivos estáticos
 
 [dev]
-  framework = "#static"
-  targetPort = 8888
-  autoLaunch = false
-  command = "npm run dev"
+  framework = "#static"    # Tipo de projeto
+  targetPort = 8888       # Porta local
+  autoLaunch = false       # Não abrir navegador automaticamente
+  command = "npm run dev"  # Comando para iniciar
+
+[context.production]
+  environment = { GROQ_API_KEY = "@groq_api_key" } # Variável de produção
